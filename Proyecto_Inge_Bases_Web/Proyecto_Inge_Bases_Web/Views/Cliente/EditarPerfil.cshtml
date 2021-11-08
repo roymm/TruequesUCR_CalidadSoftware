@@ -1,0 +1,527 @@
+﻿<!--Actividad supervisada 6/17/2020 Dev 1: Daniel Sancho Varela B66676 , Dev 2: Joshua Ramirez Alfaro  Nuestro código desde un principio fue diseñado para validar los parámetros que el usuario ingresaba,
+    no tenemos consultas directas a la base de datos, usamos parámetros que son verificados antes de ser añadidos o consultados en la la base de datos.
+    Ademas el uso del entity framework tiene como base la manipulación de cadenas o concatenación, y no son susceptibles a los ataques tradicionales de inyección Sql.
+    Propiamente los datos que se ingresan en el editar perfil se verifican por longitud de la cadena y
+    también por los caracteres que se ingresan, además el usuario no tiene forma de tocar la base de datos directamente.-->
+
+@{
+    ViewBag.Title = "Completar Perfil";
+}
+
+<!--<br><br><br>-->
+<head>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- en este style se centran las casillas ademas del estilo de los check boxes de las preferencias, se establecen tambien los asteriscos rojos en los campos requeridos -->
+    <style>
+            /* Style The Dropdown Button */
+
+
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown-categorias {
+                position: relative;
+                display:block;
+                
+            }
+
+                /* Links inside the dropdown */
+            .inputs {
+                color: black;
+                text-decoration: none;
+                background-color: white;
+                min-width: 165px;
+                border-style:ridge;
+            }
+
+
+            /* Show the dropdown menu on hover */
+            .dropdown-categorias .dropdown-categorias-content {
+                display: contents;
+
+            }
+
+      
+         
+        
+                 
+                 
+
+     /* Aqui termina categorias */
+
+
+            #idsrc {
+                background: @Url.Action( "Show", "Cliente", new { id = ViewData["idsrc"] });
+            }
+
+        #file1 {
+            object-fit: cover;
+            width: 200px;
+            height: 200px;
+            object-position: 100% 0;
+            overflow: hidden;
+        }
+
+        #staticEmail {
+            font-size: 11.3pt;
+            height: 35px;
+            width: 400px;
+        }
+
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+        }
+
+        .multiselect {
+            width: 200px;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+            .selectBox select {
+                width: 100%;
+                font-weight: normal;
+            }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        #checkboxes {
+            display: none;
+            border: 1px #dadada solid;
+        }
+
+            #checkboxes label {
+                display: block;
+            }
+
+                #checkboxes label:hover {
+                    background-color: #1e90ff;
+                }
+
+        label.required::after {
+            content: "*";
+            margin-right: 4px;
+            color: red;
+        }
+
+        label.bordeado {
+            outline-style: solid;
+            outline-color: slategrey;
+            outline-width: 3px;
+        }
+    </style>
+</head>
+<br>
+<!-- Aca se establece el contenedor carta (divido en 3 partes : encabezado, cuerpo y el pie de página) donde se van a insertar todos los campos requeridos para la toma de datos para los usuarios-->
+<div class="d-flex justify-content-center" style="margin-top : 30px">
+
+
+    <div class="card mx-auto " style="width: 63rem; ">
+        <!-- Aca empieza el encabezado de la carta-->
+        <!--Aca comienza la verificacion inyeccion de Sql de la actividad supervisada por Joshua Ramirez Alfaro y Daniel Sancho Varela-->
+        <!--Al no existir ningun codigo relacionado a Sql tipo consultas directamente en nuestro codigo , entity framework es menos propensa a inyecciones si no existe este tipo de codigo quemado de sql-->
+        <!--Historias de Usuario asociadas 3.1 y 1.6-->
+        @using (Html.BeginForm("EdicionPerfil", "Cliente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="card-header text-left">
+
+                <h2>Completar Perfil</h2>
+                <!--Imagen de perfil-->
+                <!--En esta seccion se monta todo lo correspondiente a la imagen de perfil que el cliente desea establecer-->
+                <h5>Foto de perfil y correo electrónico:</h5>
+                <div class=" col-sm justify-content-center" align="center" style="grid-column-gap:50px">
+                    <input type="file" id="file1" style="display:none" name="file2" />
+                    <input type="image" id="idsrc" src="" style="width:150px;height:150px" name="imagen" class="rounded-circle mx-auto" onClick="return false;">
+                    <!-- Los siguientes scripts ayudan a crear una imagen como boton para que sea mas placentero para la experiencia del cliente-->
+                    <script>
+                 var img = '@TempData["img"]';
+                  sessionStorage.setItem('imguser', img);
+                    $('#idsrc').attr('src', "data:image/png;base64," + sessionStorage.getItem("imguser"));
+                    </script>
+
+                    <script>
+                        $("input[type='image']").click(function () {
+                            $("input[id='file1']").focus().click();
+                        });
+                    </script>
+                    <script>
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#idsrc').attr('src', e.target.result);
+                                }
+
+                                reader.readAsDataURL(input.files[0]); // convert to base64 string
+                            }
+                        }
+
+                        $("#file1").change(function () {
+                            readURL(this);
+
+                        });
+                    </script>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="text" readonly class="form-control-plaintext text-center mx-auto" id="staticEmail" value=@Session["Correiro"]>
+                </div>
+            </div>
+
+
+
+            <!--Aca empieza el cuerpo de carta-->
+            <div class="card-body">
+                <h5>Nombre completo y fecha de nacimiento:</h5>
+                <br />
+                <div class="form-row text-justify" style="grid-row-gap:50px">
+                    <div class=" col-sm" style="grid-column-gap:50px">
+                        <!-- Este espacio se utiliza para el cuadro de insercion del Nombre del usuario-->
+                        <label for="fName" class="required">Nombre</label>
+                        <input type="text" class="form-control" id="fName" name="Nombre" value=@TempData["NombreUsuario"] placeholder="Nombre" input pattern="[a-zA-Z]+" oninvalid="MensajeInvalido(this);" oninput="MensajeInvalido(this)" style="width:200px; height:45px" required>
+                        <!--Script necesario para la utilizacion de mensajes adaptados a ciertos inputs de los usuarios para evitar errores -->
+                        <script>
+                            function MensajeInvalido(textbox) {
+
+                                if (textbox.value === '') {
+                                    textbox.setCustomValidity
+                                        ('Es necesario que ingrese su nombre!');
+                                } else if (textbox.validity.patternMismatch) {
+                                    textbox.setCustomValidity
+                                        ('Por favor ingrese solamente caracteres alfabéticos');
+                                } else {
+                                    textbox.setCustomValidity('');
+                                }
+                                return true;
+                            }
+                        </script>
+                    </div>
+                    <div class=" col-sm" style="grid-column-gap:50px">
+                        <!--Este espacio se utiliza el cuadro de insercion del Primer apellido del usuario-->
+                        <label for="lName1" class="required">Primer apellido</label>
+                        <input type="text" class="form-control " id="lName1" name="Apellido1" value=@TempData["Apellido1"] placeholder="Primer apellido" input pattern="[a-zA-Z]+" oninvalid="MensajeInvalido2(this);" oninput="MensajeInvalido2(this)" style="width:200px; height:45px " required>
+                        <!--Script necesario para la utilizacion de mensajes adaptados a ciertos inputs de los usuarios para evitar errores -->
+                        <script>
+                            function MensajeInvalido2(textbox) {
+                                if (textbox.value === '') {
+                                    textbox.setCustomValidity
+                                        ('Es necesario que ingrese su primer apellido!');
+                                } else if (textbox.validity.patternMismatch) {
+                                    textbox.setCustomValidity
+                                        ('Por favor ingrese solamente caracteres alfabéticos');
+                                } else {
+                                    textbox.setCustomValidity('');
+                                }
+                                return true;
+                            }
+                        </script>
+                    </div>
+                    <div class=" col-sm " style="grid-column-gap:50px">
+                        <!--<!--Este espacio se utiliza el cuadro de insercion del Segundo apellido del usuario-->
+                        <label for="lName1">Segundo apellido</label>
+                        <input type="text" class="form-control" id="lName2" name="Apellido2" value=@TempData["Apellido2"] placeholder="Segundo Apellido" input pattern="[a-zA-Z]+" oninvalid="MensajeInvalido3(this);" oninput="MensajeInvalido3(this)" style="width:200px; height:45px">
+                        <script>
+                            function MensajeInvalido3(textbox) {
+
+                                if (textbox.validity.patternMismatch) {
+                                    textbox.setCustomValidity
+                                        ('Por favor ingrese solamente caracteres alfabéticos');
+                                }
+                                else {
+                                    textbox.setCustomValidity('');
+                                }
+                                return true;
+                            }
+                        </script>
+                    </div>
+
+                    <div class="form-row text-justify" style="grid-row-gap:50px;">
+                        <div class="col-sm" style="grid-column-gap:50px;">
+                            <label class="required" for="edad">Ingrese su fecha de nacimiento</label>
+                            <!--Calendario para fecha de nacimiento-->
+                            <input id="datepicker" style="width:200px; height:45px" name="Edad" onkeydown="return false" onpaste="return false" value=@TempData["Edad"] title="Debe ser mayor de 18 años">
+                            <!-- Script para la utilizacion del calendario por medio de bootstrap-->
+                            <script>
+                                var year = (new Date).getFullYear();
+                                $('#datepicker').datepicker({
+                                    dateFormat: 'yyyy-mm-dd',
+                                    uiLibrary: 'bootstrap4',
+                                    minDate: new Date(1930, 0, 1),
+                                    maxDate: new Date(year - 18, 11, 31)
+                                   
+                                }).val();
+
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aca comienza el pie de página-->
+            <div class="card-footer">
+                <h5>Datos adicionales:</h5>
+                <br />
+                <div class="form-row text-justify" style="grid-row-gap:50px">
+                    <div class=" col-sm" style="grid-column-gap:50px">
+                        <label class="required" for="Pais" name="Pais">País</label>
+                        <!--Escogencia de Pais -->
+                        @Html.DropDownList("Pais", (SelectList)ViewBag.Pais,
+        new
+        {
+        onchange = "document.getElementById('ChangePaisId').value = " +
+        "document.getElementById('Nombre').value; this.form.submit();"
+        })
+
+                        @{
+                            <script>
+                                document.getElementById("ChangePaisId").value = "";
+                            </script>
+                        }
+                    </div>
+                    <div class="col-sm" style="grid-column-gap:50px;">
+                        <label class="required" for="Estado o Provincia" name="Estado o Provincia">Estado o provincia</label>
+                        <!--Escogencia del Estado-->
+                        @Html.DropDownList("Provincia", (SelectList)ViewBag.Provincia)
+                        @{
+                            <script type="text/javascript">
+                                $(function () {
+                                    $("#Pais").change(function () {
+                                        var val = $(this).val();
+                                        var subItems="";
+                                        $.getJSON("@Url.Action("GetProvincia", "Cliente")", { nombrePais:val} ,function (data) {
+                                            $.each(data,function(index,item){
+                                                subItems+="<option value='"+item.Value+"'>"+item.Text+"</option>"
+                                            });
+                                            $("#Provincia").html(subItems)
+                                        });
+                                    });
+                                });
+                            </script>
+                        }
+                    </div>
+                    <div class="col-sm" style="grid-column-gap:50px">
+                        <label class="required" for="Ciudad o cantón" name="Ciudad o cantón">Ciudad o cantón</label>
+                        <!--Escogencia del Canton-->
+                        @Html.DropDownList("Canton", (SelectList)ViewBag.Canton)
+                        @{
+                            <script type="text/javascript">
+                                $(function () {
+                                    $("#Provincia").change(function () {
+                                        var val = $(this).val();
+                                        var subItems="";
+                                        $.getJSON("@Url.Action("GetCanton", "Cliente")", { nombreProvincia:val} ,function (data) {
+                                            $.each(data,function(index,item){
+                                                subItems+="<option value='"+item.Value+"'>"+item.Text+"</option>"
+                                            });
+                                            $("#Canton").html(subItems)
+                                        });
+                                    });
+                                });
+                            </script>
+                        }
+                    </div>
+                </div>
+                <div class="form-row justify-content-center" style="grid-row-gap:50px">
+
+                    <label for="direccion" style="margin-right: 850px;margin-top : 15px">Dirección Exacta</label>
+                    <!--En este recuadro que se crea , se inserta la direccion exacta que desee agregar el usuario-->
+                    <textarea class="form-control " rows="3" id="Address" cols="200" style="min-width:100%" name="Direccion" placeholder="Ingrese datos sobre su direccion exacta" input pattern="[a-zA-Z][a-zA-Z0-9-_.]{1,20}">@TempData["Direccion"]</textarea>
+
+                </div>
+                <br />
+
+                <!--Aca se comienza con las preferencias de usuario y esta ordenado con un multiselect dentro de un dropdown-->
+
+
+                <label class="required ">Seleccione sus preferencias</label>
+
+
+
+                <div class=" col-12" style=" max-height:150px; max-width:200px; overflow-y:auto;overflow-y:auto">
+                    <div class=dropdown-categorias>
+
+                        <div class="dropdown-categorias-content">
+
+                            @foreach (var item in (SelectList)ViewBag.Categorias)
+                            {
+
+
+                                <div class=inputs>
+                                    <input type="checkbox" name="@item.Text" value="True" id="@item.Value" />
+                                    <label for="@item.Value">@item.Text</label>
+                                </div>
+
+                                <script>
+
+                                    var c1 = '@TempData["EntretenimientoMarcado"]';
+                                    var namecat1 = document.getElementsByName("Entretenimiento");
+                                    if (c1 == "True") {
+                                        namecat1[0].checked = true;
+                                    } else { namecat1[0].checked = false; }
+
+                                    var c2 = '@TempData["EducaciónMarcado"]';
+                                    var namecat2 = document.getElementsByName("Educación");
+                                    if (c2 == "True") {
+                                        namecat2[0].checked = true;
+                                    } else { namecat2[0].checked = false; }
+
+                                    var c3 = '@TempData["SaludMarcado"]';
+                                    var namecat3 = document.getElementsByName("Salud y Belleza");
+                                    if (c3 == "True") {
+                                        namecat3[0].checked = true;
+                                    } else { namecat3[0].checked = false; }
+
+                                    var c4 = '@TempData["DeportesMarcado"]';
+                                    var namecat4 = document.getElementsByName("Deportes");
+                                    if (c4 == "True") {
+                                        namecat4[0].checked = true;
+                                    } else { namecat4[0].checked = false; }
+
+                                    var c5 = '@TempData["FerreteriaMarcado"]';
+                                    var namecat5 = document.getElementsByName("Ferreteria");
+                                    if (c5 == "True") {
+                                        namecat5[0].checked = true;
+                                    } else { namecat5[0].checked = false; }
+
+                                     var c6 = '@TempData["HogarMarcado"]';
+                                    var namecat6 = document.getElementsByName("Hogar");
+                                    if (c6 == "True") {
+                                        namecat6[0].checked = true;
+                                    } else { namecat6[0].checked = false; }
+
+                                       var c7= '@TempData["PeliculasMarcado"]';
+                                    var namecat7 = document.getElementsByName("Peliculas");
+                                    if (c7 == "True") {
+                                        namecat7[0].checked = true;
+                                    } else { namecat7[0].checked = false; }
+
+                                      var c8= '@TempData["JuegosMarcado"]';
+                                    var namecat8 = document.getElementsByName("Juegos");
+                                    if (c8 == "True") {
+                                        namecat8[0].checked = true;
+                                    } else { namecat8[0].checked = false; }
+
+                                    var c9= '@TempData["LibrosMarcado"]';
+                                    var namecat9 = document.getElementsByName("Libros");
+                                    if (c9 == "True") {
+                                        namecat9[0].checked = true;
+                                    } else { namecat9[0].checked = false; }
+
+                                    var c10= '@TempData["TecnologiaMarcado"]';
+                                    var namecat10 = document.getElementsByName("Tecnología");
+                                    if (c10 == "True") {
+                                        namecat10[0].checked = true;
+                                    } else { namecat10[0].checked = false; }
+
+                                    var c11= '@TempData["MaterialEdMarcado"]';
+                                    var namecat11 = document.getElementsByName("Material educativo");
+                                    if (c11 == "True") {
+                                        namecat11[0].checked = true;
+                                    } else { namecat11[0].checked = false; }
+
+                                      var c12= '@TempData["ArticulosEdMarcado"]';
+                                    var namecat12 = document.getElementsByName("Articulos educativos");
+                                    if (c12 == "True") {
+                                        namecat12[0].checked = true;
+                                    } else { namecat12[0].checked = false; }
+
+                                    var c13= '@TempData["AccionMarcado"]';
+                                    var namecat13 = document.getElementsByName("Acción");
+                                    if (c13 == "True") {
+                                        namecat13[0].checked = true;
+                                    } else { namecat13[0].checked = false; }
+
+                                     var c14= '@TempData["RopaMarcado"]';
+                                    var namecat14 = document.getElementsByName("Ropa");
+                                    if (c14 == "True") {
+                                        namecat14[0].checked = true;
+                                    } else { namecat14[0].checked = false; }
+
+                                      var c15= '@TempData["CalzadoMarcado"]';
+                                    var namecat15 = document.getElementsByName("Calzado");
+                                    if (c15 == "True") {
+                                        namecat15[0].checked = true;
+                                    } else { namecat15[0].checked = false; }
+
+                                      var c16= '@TempData["CamisasMarcado"]';
+                                    var namecat16 = document.getElementsByName("Camisas");
+                                    if (c16 == "True") {
+                                        namecat16[0].checked = true;
+                                    } else { namecat16[0].checked = false; }
+
+                                       var c17= '@TempData["CocinaMarcado"]';
+                                    var namecat17 = document.getElementsByName("Cocina");
+                                    if (c17 == "True") {
+                                        namecat17[0].checked = true;
+                                    } else { namecat17[0].checked = false; }
+
+                                       var c18= '@TempData["VehículoMarcado"]';
+                                    var namecat18 = document.getElementsByName("Vehículo"); 
+                                    if (c18 == "True") {
+                                        namecat18[0].checked = true;
+                                    } else { namecat18[0].checked = false; }
+
+                                       var c19= '@TempData["CarretaMarcado"]';
+                                    var namecat19 = document.getElementsByName("Carreta");
+                                    if (c19 == "True") {
+                                        namecat19[0].checked = true;
+                                    } else { namecat19[0].checked = false; }
+
+                                       var c20= '@TempData["InstrumentosMarcado"]';
+                                    var namecat20 = document.getElementsByName("Instrumentos Musicales");
+                                    if (c20 == "True") {
+                                        namecat20[0].checked = true;
+                                    } else { namecat20[0].checked = false; }
+
+
+
+                                </script>
+                                         }
+                        </div>
+                     
+                    </div>
+                </div>
+
+
+
+                <!--Inicio AS 10/06/20 - Occidente - Historia:OC-2.5 - Devs:Mario Vargas B67454 y Ricardo Alfaro B70257 -->
+                <br />
+
+
+                <input class="" name="checkbox1" id="checkbox2" type="checkbox" value="True" title="Active la casilla para desactivar las notificaciones por correo electrónico." @TempData["checked"]><a> Desactivar notificaciones automáticas por correo electrónico.</a>
+
+
+                <br />
+                <br />
+                <br />
+
+                <div class="col-12 " align="center">
+                    <button type="submit"name="botonf" background="" class="btn btn-info" onclick="Validation()" style="background-color:#00c0f3" href="~/Cliente/EdicionPerfil">
+                        Completar datos
+                    </button>
+                </div>
+
+
+                <!--Aca se crea el boton de completar el registro y que checkea toda la etiqueta form para los espacios requeridos-->
+
+
+            </div>
+        }
+    </div>
+</div>

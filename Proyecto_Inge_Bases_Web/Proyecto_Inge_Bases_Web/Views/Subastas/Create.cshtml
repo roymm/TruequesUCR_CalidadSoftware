@@ -1,0 +1,206 @@
+﻿@using Proyecto_Inge_Bases_Web.ViewModels
+@model Proyecto_Inge_Bases_Web.ViewModels.SubastaViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="~/Stylesheets/clockpicker/clockpicker.css">
+<script src="~/Scripts/clockpicker.js"></script>
+
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+        .cuerpo {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        div.MediumTextSize {
+            font-size: 125%;
+        }
+
+        div.HeaderTextSize {
+            font-size: 150%;
+        }
+    </style>
+</head>
+
+
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+
+
+    @Html.HiddenFor(model => Model.ProductoIDSubastado, new { @Value = Model.Subastas.ProductoIDSubastado })
+    <div class="cuerpo">
+        <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+            <h2>Subastar: @Html.DisplayFor(model => Model.Productos.Nombre)</h2><hr />
+        </div>
+        <div class="col-md-10">
+            <p>Condición: @Html.DisplayFor(model => Model.Productos.Condicion)  </p>
+            <p>Precio: ₡@Html.DisplayFor(model => Model.Productos.PrecioEstimado) </p>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.PrecioMinimo, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-10">
+                <p>Precio mínimo para la subasta</p>
+                @Html.EditorFor(model => model.PrecioMinimo, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.PrecioMinimo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--Prueba para poner los cuadritos del calendario-->
+        <div class="form-group">
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-left:15px">
+                            <p>Fecha de inicio de la subasta</p>
+                            @Html.EditorFor(model => model.FechInicio, new { htmlAttributes = new { @class = "form-control datepicker", @maxLength = 10, @minLength = 10, @onkeydown = "return false", @onpaste = "return false", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.FechInicio, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-left:30px">
+                            <p>Hora de inicio de la subasta</p>
+                            @Html.EditorFor(model => model.HoraInicio, new { htmlAttributes = new { @class = "form-control demo-input", @maxLength = 5, @minLength = 5, @onkeydown = "return false", @onpaste = "return false", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.HoraInicio, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div class="form-group">
+            <table>
+                <tbody>
+
+                    <tr>
+                        <td style="padding-left:15px">
+                            <p>Fecha de finalización de la subasta</p>
+                            @Html.EditorFor(model => model.FechFin, new { htmlAttributes = new { @class = "form-control  datepicker2", @maxLength = 10, @minLength = 10, @onkeydown = "return false", @onpaste = "return false", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.FechFin, "", new { @class = "text-danger" })
+                        </td>
+                        <td style="padding-left:30px">
+                            <p>Hora de finalización de la subasta</p>
+                            @Html.EditorFor(model => model.HoraFin, new { htmlAttributes = new { @class = "form-control demo-input", @maxLength = 5, @minLength = 5, @onkeydown = "return false", @onpaste = "return false", required = "required" } })
+                            @Html.ValidationMessageFor(model => model.HoraFin, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="modal fade" id="ModalSubasta" tabindex="-1" role="dialog" aria-labelledby="ModalSubastaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">¿Quién puede ver?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            @for (int i = 0; i < Model.sublistas.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => model.sublistas[i].Value)
+                                        @Html.HiddenFor(model => model.sublistas[i].Text)
+                                        @Html.HiddenFor(model => model.sublistas[i].Value)
+                                    </td>
+                                    <td style="padding-left:200%">
+                                        @Html.CheckBoxFor(model => model.sublistas[i].Selected)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <input class="btn btn-info" style="background-color:  #00c0f3" type="submit" value="Subastar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.PrecioMinimo, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-10">
+                <p>Añada un mensaje para los perdedores de la subasta</p>
+                @Html.EditorFor(model => model.Mensaje, new { htmlAttributes = new { @class = "form-control-neon", @maxLength = 50 } })
+                @Html.ValidationMessageFor(model => model.Mensaje, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalSubasta" style="background-color:  #00c0f3">
+                    Subastar
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        var year = (new Date).getFullYear();
+        var month = (new Date).getMonth();
+        var day = (new Date).getDate();
+        //$.fn.datepicker.dateFormat = "dd/mm/yyyy";
+        $('.datepicker').datepicker({
+            dateFormat: "dd-mm-yy",
+            uiLibrary: 'bootstrap4',
+            minDate: new Date(year, month, day)
+
+        }).val();
+
+    </script>
+    <script>
+
+        var year = (new Date).getFullYear();
+        var month = (new Date).getMonth();
+        var day = (new Date).getDate();
+        $('.datepicker2').datepicker({
+            dateFormat: "dd-mm-yy",
+            uiLibrary: 'bootstrap4',
+            minDate: new Date(year, month, day)
+
+        }).val();
+
+    </script>
+
+    <script type="text/javascript">
+        $('.clockpicker').clockpicker()
+            .find('input').change(function () {
+                // TODO: time changed
+                console.log(this.value);
+            });
+        $('.demo-input').clockpicker({
+            autoclose: true
+        });
+
+        if (something) {
+         
+            $('.demo-input').clockpicker('show')
+                .clockpicker('toggleView', 'minutes');
+        }
+    </script>
+
+}

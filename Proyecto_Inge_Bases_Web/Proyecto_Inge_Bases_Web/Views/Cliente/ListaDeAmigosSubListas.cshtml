@@ -1,0 +1,128 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.MostrarListas
+
+@{
+    ViewBag.Title = "ListaDeAmigosSubListas";
+}
+
+    <head>
+        <!--Este estilo es para que las cartas o contenedores se posicionen juntos-->
+        <style>
+            .card {
+                display: inline-block;
+            }
+        </style>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+        <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+        <script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+<!--Icons library-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+@using (Html.BeginForm("CrearSublista", "Cliente", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">
+    <label style="margin-left:20px; margin-top:35px; "> Tus Sublistas:</label>
+    <br />
+    <table class="table">
+        @foreach (var item in Model.Sublistas)
+        {
+            <tr>
+                <td>
+
+                    @Html.ActionLink(item.NombreSublista, "../Cliente/ListaDeAmigosSubListas", "Cliente", new { ide = item.id }, new { @class = " " })
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="container-fluid" style="margin-top:100%;margin-left:15px">
+        <div class="row">
+            <label>Crear una sublista:</label>
+            <input type="text" style="width:225px" class="form-control" name="agregarSublista" />
+            @Html.ActionLink(" ", "../Cliente/CrearSublista", "Cliente", new { @class = " " })
+            <button type="submit" name="botonSublista"  style="background-color:#00c0f3; margin-left:70px;margin-top:10px" background="" class="btn btn-info">Agregar</button>
+        </div>
+
+    </div>
+</div> }
+
+
+<div class="row justify-content-center" style="margin-left:19%">
+    <div class="col-xs-6">
+        <div class="card mx-auto" style="width: 30rem; margin-top:35px">
+            <div class="card-header text-left" style="padding:25px">
+                <h5>Miembros de la sublista</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @{int cant_amigos = 0;
+                        foreach (var item in Model.EstaEnSublistas)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td>
+                                    @item.Apellido1
+                                </td>
+                                <td>
+                                    @item.Apellido2
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "../Cliente/EliminarDeSublista", "Cliente", new { correo = item.CorreoAmigo, idSub = item.SublistaID }, new { @class = "fas fa-trash", style = "color:gray" })
+                                </td>
+                            </tr>
+                            cant_amigos++;
+                        }
+                        if (cant_amigos == 0)
+                        {
+
+                            <tr> <td style="color:red">La lista está vacía </td> </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="card mx-auto" style="width: 30rem;  margin-top:35px">
+            <div class="card-header text-left" style="padding:25px">
+                <h5>Mi lista de Amigos</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @{int cant_borrados = 0;
+                        foreach (var item in Model.NoEsta)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td>
+                                    @item.Apellido1
+                                </td>
+                                <td>
+                                    @item.Apellido2
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "../Cliente/AgregarASublista", "Cliente", new { correo = item.CorreoAmigo, idSub = item.SublistaID }, new { @class = "fa fa-plus", style = "color:gray" })
+                                </td>
+                            </tr>
+                            cant_borrados++;
+                        }
+                        if (cant_borrados == 0)
+                        {
+
+                            <tr> <td style="color:red">La lista está vacía </td> </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

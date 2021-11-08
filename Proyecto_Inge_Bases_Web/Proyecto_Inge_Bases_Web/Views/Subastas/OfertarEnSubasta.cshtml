@@ -1,0 +1,162 @@
+﻿@using Proyecto_Inge_Bases_Web.ViewModels
+@model Proyecto_Inge_Bases_Web.ViewModels.SubastaViewModel
+@using System.Globalization;
+@{
+    ViewBag.Title = "OfertarEnSubasta";
+}
+
+
+@{
+    
+    string date = Model.Subastas.FechaPublicado.ToString("dd/MM/yyyy HH:mm:ss");
+    
+
+}
+
+
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+        .cuerpo {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        div.MediumTextSize {
+            font-size: 125%;
+        }
+
+        div.HeaderTextSize {
+            font-size: 150%;
+        }
+    </style>
+</head>
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Cuanto desea ofrecer por: @ViewBag.Nombre</h2> <hr />
+    </div>
+    @using (Html.BeginForm())
+    {
+
+        @*@Html.AntiForgeryToken()*@
+
+        @Html.HiddenFor(model => model.ProductoIDSubastado, new { @Value = Model.Subastas.ProductoIDSubastado })
+        @Html.HiddenFor(model => model.CorreoSubastador, new { @Value = Model.Subastas.CorreoSubastador })
+        @Html.HiddenFor(model => model.FechaPublicado, new { @Value = date })
+        //@Html.TextBoxFor(model => model.FechaPublicado, new { @Value = date })
+        @*@Html.TextBoxFor(model => model.ProductoIDSubastado, new { @Value = Model.ProductoIDSubastado })
+            @Html.TextBoxFor(model => model.CorreoSubastador, new { @Value = Model.CorreoSubastador })
+            @Html.TextBoxFor(model => model.FechaPublicado, new { @Value = date })*@
+        <div class="col-md-10">
+
+
+            <p style="color: darkred">@ViewBag.Aviso</p>
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>Precio mínimo: ₡ @Html.DisplayFor(model => Model.Subastas.PrecioMinimo)</td>
+                        <td>Fecha inicial: @Html.DisplayFor(model => Model.Subastas.FechaInicio)</td>
+                    </tr>
+                    <tr>
+                        <td>Dueño: @Model.Subastas.Producto.Cliente.Registrado.Nombre @Model.Subastas.Producto.Cliente.Registrado.Apellido1</td>
+                        <td id="fecha-fin">Fecha finalización: @Html.DisplayFor(model => Model.Subastas.FechaFin)</td>
+                    </tr>
+                    <tr>
+                        <td>Condición:  @Html.DisplayFor(model => Model.Subastas.Producto.Condicion)</td>
+                        <td id="tiempo-restante">Tiempo Restante: </td>
+                    </tr>
+                    <tr>
+                        <td>Mayor oferta: ₡@ViewBag.OfertaMaxima </td>
+                    </tr>
+                </tbody>
+            </table>
+            @if (ViewBag.Descripcion != null)
+            {
+                <p>Descipción:</p>
+                <p>@ViewBag.Descripcion</p>
+            }
+
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrecioOfrecido, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PrecioOfrecido, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PrecioOfrecido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action("Index", "Subastas")'"> Volver</button>
+                    <input class="btn btn-info" style="background-color:  #00c0f3" type="submit" value="Ofrecer" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<script>
+
+    //declarados para explicar numeros magicos
+    const diaEnMilisegundos = 24 * 60 * 60 * 1000;
+    const horaEnMilisegundos = 60 * 60 * 1000;
+    const minutoEnMilisegundos = 60 * 1000;
+    const segundoEnMilisegundos = 1000;
+
+    function formatearTiempoRestantes() {
+        var tiempoFinElemento = document.getElementById("fecha-fin");
+        var tiempoRestante = document.getElementById("tiempo-restante");
+
+        let listaFecha = tiempoFinElemento.innerHTML.substr(20).split("/");
+        let dia = listaFecha[0];
+        let mes = listaFecha[1] - 1;
+        let año = listaFecha[2].split(" ")[0];
+        let tiempo = listaFecha[2].split(" ")[1];
+        tiempo = tiempo.split(":");
+        let hora = tiempo[0];
+        let minuto = tiempo[1];
+        let segundo = tiempo[2];
+
+        let tiempoFin = new Date(año, mes, dia, hora, minuto, segundo);
+        let tiempoActual = new Date().getTime();
+        let diferenciaTiempo = tiempoFin - tiempoActual;
+
+
+
+        if (diferenciaTiempo > 0) {
+            let tiempoFormateado = "";
+            let tiempos = {};
+            tiempos["d"] = Math.floor(diferenciaTiempo / diaEnMilisegundos);
+            tiempos["h"] = Math.floor((diferenciaTiempo % diaEnMilisegundos) / horaEnMilisegundos);
+            tiempos["m"] = Math.floor((diferenciaTiempo % horaEnMilisegundos) / minutoEnMilisegundos);
+            tiempos["s"] = Math.floor((diferenciaTiempo % minutoEnMilisegundos) / segundoEnMilisegundos);
+
+            let conValor = false;
+            for (var nombreTiempo in tiempos) {
+                if (tiempos[nombreTiempo] > 0) {
+                    conValor = true;
+                }
+                if (conValor) {
+                    tiempoFormateado += `${tiempos[nombreTiempo]}${nombreTiempo}, `;
+                }
+            }
+            //elimina la ultima coma
+            tiempoFormateado = tiempoFormateado.slice(0, -2);
+            tiempoRestante.innerHTML = "Tiempo Restante: " + tiempoFormateado;
+        }
+        else {
+            tiempoRestante.innerHTML = 'Tiempo Restante: Finalizado';
+        }
+        
+    }
+
+    formatearTiempoRestantes();
+    var calcularTiemposRestantes = setInterval(formatearTiempoRestantes, 1000);
+
+</script>

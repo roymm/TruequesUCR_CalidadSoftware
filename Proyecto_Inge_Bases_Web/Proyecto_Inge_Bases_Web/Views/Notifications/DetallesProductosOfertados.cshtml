@@ -1,0 +1,145 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+        .cuerpo {
+            margin: auto;
+            width: 60%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+    </style>
+
+</head>
+
+<div class="cuerpo">
+
+    <div class="text-secondary mt-4">
+        <h2 style="font-weight:500; font-family:inherit; color:inherit">Detalles producto</h2>
+    </div>
+
+    <table class="mt-2">
+        <tbody>
+            <tr>
+                <td>
+                    <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_slideshow_self -->
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+                    <style>
+                        .mySlides {
+                            display: none;
+                        }
+                    </style>
+
+                    <div class=" col-sm justify-content-center" align="center" style="grid-column-gap:50px">
+                        <img id="idsrc" src="" alt="Imagen1" style="width:400px; height:400px" class="mySlides" />
+                        <script>
+                        var img = '@TempData["img"]';
+                        sessionStorage.setItem('imguser', img);
+                        $('#idsrc').attr('src', "data:image/png;base64," + sessionStorage.getItem("imguser"));
+                        </script>
+                    </div>
+
+                    <script src="~/Scripts/SlideImg.js"></script>
+                </td>
+
+                <td>
+                    <div class="mt-3 ml-2">
+                        <table cellspacing="30">
+                            <tr>
+                                <td>
+                                    <h3>
+
+                                        @Html.DisplayFor(model => model.Nombre)
+
+                                    </h3><br />
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    De: @Html.DisplayFor(model => model.Cliente.Correo)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Publicado @Html.DisplayFor(model => model.FechaPublicado)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Categorias:
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <h4>
+                                        ₡
+                                        @Html.DisplayFor(model => model.PrecioEstimado)
+                                    </h4>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <br>@Html.DisplayFor(model => model.Descripcion)
+                                </td>
+                            </tr>
+
+                            @{ foreach (var item in ViewBag.ProductosVirtuales)
+                                {
+
+                                    if (Model.ProductoID == item.ProductoID)
+                                    {//Estoy en un producto en particular. Veo si este se encuentra en virtual
+                                        <tr>
+                                            <td>
+                                                <br>Tipo de Archivo: @Html.DisplayFor(model => model.Virtual.TipoDeArchivo)
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <br>Derechos de producto: @Html.DisplayFor(model => model.Virtual.DerechosDeProducto)
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <br>Fuente(s): @Html.DisplayFor(model => model.Virtual.Fuentes)
+                                            </td>
+                                        </tr>
+
+
+                                        break;//Ya lo encontre, no necesito buscar más
+                                    }
+
+                                }
+                            }
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action("Solicitud", new {p1 = ViewBag.p1})'"> Volver</button>
+    </p>
+
+</div>
+
+

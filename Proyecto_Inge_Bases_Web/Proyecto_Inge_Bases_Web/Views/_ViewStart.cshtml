@@ -1,0 +1,22 @@
+﻿
+
+@{
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    
+
+    string layout = "";
+    // Layout del cliente
+    if (controller == "Cliente" || controller == "Producto" || controller == "Notifications" || controller == "Ofertas" || controller == "Subastas")
+    {
+        
+        layout = "~/Views/Shared/_LayoutCliente.cshtml";
+    }
+    // Layout del amdinistrador
+    else if (controller == "Administrador")
+    {
+        layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+    }
+    // Layout default
+    else { layout = "~/Views/Shared/_Layout.cshtml"; }
+    Layout = layout;
+}

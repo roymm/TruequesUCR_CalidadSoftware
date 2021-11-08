@@ -1,0 +1,253 @@
+﻿@model Proyecto_Inge_Bases_Web.ViewModels.ProductoCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+    List<SelectListItem> l1 = new List<SelectListItem>();
+    l1.Add(new SelectListItem() { Text = "Nuevo", Value = "Nuevo" });
+    l1.Add(new SelectListItem() { Text = "Semi-nuevo", Value = "Semi-nuevo" });
+    l1.Add(new SelectListItem() { Text = "Usado", Value = "Usado" });
+}
+@Html.HiddenFor(model => model.Producto.Estado)
+@using (Html.BeginForm("Create", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @*@Html.AntiForgeryToken()*@
+
+    <head>
+
+        <style>
+
+            textarea {
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                max-width: 1000px;
+            }
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+
+            label.required::after {
+                content: "*";
+                margin-right: 4px;
+                color: red;
+            }
+
+            .hidden-element {
+                display: none;
+            }
+        </style>
+
+    </head>
+
+    <div class="cuerpo">
+        <div>
+            <div class="text-secondary mt-4">
+                <h2 style="font-weight:500; font-family:inherit; color:inherit">Producto</h2>
+            </div>
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" style="">
+                <!--@Html.LabelFor(model => model.Producto.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })-->
+                <div class="col-md-10">
+                    <label class="required">Nombre del producto</label>
+                    @Html.EditorFor(model => model.Producto.Nombre, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Producto.Nombre, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!--@Html.LabelFor(model => model.Producto.PrecioEstimado, htmlAttributes: new { @class = "control-label col-md-2" })-->
+                <div class="col-md-10">
+                    <label class="required">Precio estimado</label>
+                    @Html.EditorFor(model => model.Producto.PrecioEstimado, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Producto.PrecioEstimado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group ">
+                <div class="col-md-10">
+                    <label class="required">Categoría</label> <br />
+                    @* Hacer select de las categorías *@
+                    @*@Html.DropDownList("Categoria", (SelectList)ViewBag.Categoria, new { @class = "form-control" })*@
+                    @* *@
+
+                    @*<div>*@
+                    <div class=" col-12" style=" max-height:150px; max-width:200px; overflow-y:auto;overflow-y:auto">
+                        @foreach (var item in ViewBag.Categoria)
+                        {
+                            <div>
+                                @Html.CheckBox("checkboxCategoria", false, new { required = "required" })
+                                <p>@item.Text</p>
+                            </div>
+
+                        }
+
+
+                    </div>
+                    @Html.ValidationMessage("table", "Este campo es obligatorio", new { @class = "text-danger" })
+                    @*</div>*@
+
+                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <!--@Html.LabelFor(model => model.Producto.Condicion, htmlAttributes: new { @class = "control-label col-md-2" })-->
+                        <div class="col-md-10">
+                            <label class="required">Condición</label>
+                            <!--@Html.EditorFor(model => model.Producto.Condicion, new { htmlAttributes = new { @class = "form-control" } })-->
+                            @Html.DropDownListFor(model => model.Producto.Condicion, l1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Producto.Condicion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- Dropdown menu de categoria Virtual o Fisica.
+                        Clase Hidden-Element permita que se le oculte al usuario si no escoge producto tipo virtual
+                    -->
+                    <!-- Hace falta linkearlo a la base con sus propios ValidateFor, EditorFor--model, etc
+                        Tambien pendiente: Ver como hacer que lo obligatorio de subasta solo sea obligatorio si se da click en subasta. Si no se da click en subasta (es fisico) no es obligatorio
+                                Por eso mismo no le he puesto a los atributos de html forms que sea obligatorio. Para que no pase que si escoge virtual deba llenar algo de fisico
+                    -->
+
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <label class="required">Tipo de Producto:</label>
+                            @Html.DropDownList("TipoProducto", new List<SelectListItem> {
+                                    new SelectListItem{Text = "Físico", Value = "1"},
+                                    new SelectListItem{Text = "Virtual", Value = "2"},
+                                }, new { @id = "SelectType", @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <!-- Implemento nueva forma para agarrar los valores en el controlador utilizando FormCollection-->
+                    <!-- Opciones siguientes se ocultan hasta que se seleccione la opcion de virtual-->
+                    <fieldset>
+                        @using (Ajax.BeginForm("Create", "ProductoController",
+                                                new AjaxOptions { UpdateTargetId = "divDetallesVirtual" }))
+                        {
+                            <div id="divDetallesVirtual" class="form-group hidden-element">
+                                <ol>
+                                    <li>
+                                        <div class="col-md-10">
+                                            <label class="required">Derechos de Producto:</label>
+                                            @Html.TextBox("Derechos", "", new { @class = "form-control-neon" }) <!-- , required = "required" -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="col-md-10">
+                                            <label class="required">Tipo de Archivo:</label>
+                                            @Html.TextBox("TipoArchivo", "", new { @class = "form-control-neon" }) <!-- , required = "required" -->
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="col-md-10">
+                                            <label class="required">Fuente(s) de donde se obtuvo el archivo:</label>
+                                            @Html.TextBox("Fuentes", "", new { @class = "form-control-neon" }) <!-- , required = "required" -->
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        }
+                    </fieldset>
+
+                    <!-- Falta agregar fecha de expiracion-->
+                    <!-- Los siguientes atributos se ven, independientemente si es virtual o físico.-->
+                    <div class="form-group">
+                        <!--@Html.LabelFor(model => model.Producto.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })-->
+                        <div class="col-md-10">
+                            <label>Descripción</label><br />
+                            @Html.TextAreaFor(model => model.Producto.Descripcion, 3, 90, new { htmlAttributes = new { @class = "form-control-neon" } })
+                            @Html.ValidationMessageFor(model => model.Producto.Descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="form-group" style="border: ">
+                                    <!--form-group-->
+                                    <label class="col-md-10">Imagen 1 (Imagen principal)</label>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <input type="file" class="custom-file-input" id="customFileLangHTML" name="Archivo_Imagen1" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this, 1); agregueImg(this)" /><!--Cambie el id:Archivo_Imagen-->
+                                        <label class="custom-file-label" for="customFileLangHTML" data-browse="Subir">Subir Imagen</label>
+                                        @Html.ValidationMessageFor(model => model.Producto.ProductoImagen1, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <img id="imagen1" src="#" alt="" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" style="border: ">
+                                    <!--form-group-->
+                                    <label class="col-md-10">Imagen 2</label>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <input type="file" class="custom-file-input" id="customFileLangHTML" name="Archivo_Imagen2" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this,2);" /><!--Cambie el id:Archivo_Imagen-->
+                                        <label class="custom-file-label" for="customFileLangHTML" data-browse="Subir">Subir Imagen</label>
+                                        @Html.ValidationMessageFor(model => model.Producto.ProductoImagen2, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <img id="imagen2" src="#" alt="" />
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group" style="border: ">
+                                    <!--form-group-->
+                                    <label class="col-md-10">Imagen 3</label>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <input type="file" class="custom-file-input" id="customFileLangHTML" name="Archivo_Imagen3" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this,3);" /><!--Cambie el id:Archivo_Imagen-->
+                                        <label class="custom-file-label" for="customFileLangHTML" data-browse="Subir">Subir Imagen</label>
+                                        @Html.ValidationMessageFor(model => model.Producto.ProductoImagen3, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-md-10" style="margin-left:15px">
+                                        <img id="imagen3" src="#" alt="" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action("Index", "Producto")'"> Mis Productos</button>
+                            <input type="submit" value="Guardar" class="btn btn-info" style="background-color: #00c0f3" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="~/Scripts/VistaPreviaImg.js"></script>
+
+        }
+
+        <!--<button class="btn btn-primary" style="margin-left: 50px" type="button" onclick="location.href = '@Url.Action("Index", "Producto")'"> Mis Productos</button>-->
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+
+
+            <script>
+                $(function () { //Script para las opciones del dropdown de producto Virtual
+                    $("#SelectType").on("change", function () {
+                        if (parseInt($("#SelectType").val()) == 2) { // Si le da click a virtual se enseñan las opciones de virtual
+                            $(".hidden-element").show();
+                        } else {
+                            $(".hidden-element").hide();
+                        }
+                    });
+                    $("#SelectType").trigger("change");
+                });
+            </script>
+
+        }
+

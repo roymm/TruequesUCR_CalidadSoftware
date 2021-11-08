@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Subasta>
+@{
+    ViewBag.Title = "misSubastas";
+}
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+        .cuerpo {
+            margin: auto;
+            width: 88%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        div.MediumTextSize {
+            font-size: 125%;
+        }
+
+        div.HeaderTextSize {
+            font-size: 150%;
+        }
+    </style>
+</head>
+
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Mis subastas</h2>
+        <button class="btn btn-info float-right" style="background-color:  #00c0f3; margin:5px" type="button" onclick="location.href= '@Url.Action("ListaProductos")'">Nueva subasta</button>
+
+    </div>
+    <table class="table">
+        <tr>
+            <th style="text-align: center">
+                Imagen
+            </th>
+            <th style="text-align: center">
+                Producto
+            </th>
+            <th style="text-align: center">
+                Precio mínimo
+            </th>
+            
+            <th style="text-align: center">
+                Estado
+            </th>
+            
+
+            <th></th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            //Solo muestra subastas que no hayan finalizado
+            
+            int dif = DateTime.Compare(item.FechaFin, DateTime.Now);
+            int dif2 = DateTime.Compare(item.FechaInicio, DateTime.Now);
+            if (item.CorreoSubastador == (string)Session["Correiro"] && item.Estado != false)
+            {
+                <tr>
+                    <td style="text-align: center">
+                        @if (item.Producto.ProductoImagen1 != null)
+                        {
+                            <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen1)" alt="Imagen" style="width:100px; height:100px" />
+                        }
+                        else if (item.Producto.ProductoImagen2 != null)
+                        {
+                            <img id="idsrc2" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen2)" alt="Imagen" style="width:100px; height:100px" />
+                        }
+                        else if (item.Producto.ProductoImagen3 != null)
+                        {
+                            <img id="idsrc3" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen3)" alt="Imagen" style="width:100px; height:100px" />
+                        }
+                        else
+                        {
+                            <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" alt="Imagen no disponible" style="width:100px; height:100px">
+                        }
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        ₡@Html.DisplayFor(modelItem => item.PrecioMinimo)
+
+                    </td>
+                    
+                    <td style="vertical-align:middle; text-align: center">
+                        @if (dif < 0)
+                        {
+                            <p>Estado: finalizado</p>
+                        }else 
+                        if (dif2 < 0)
+                        {
+                            <p>Estado: activo</p>
+                        }else 
+                        if (dif2 > 0)
+                        {
+                            <p>Estado: aún no ha iniciado</p>
+                        }
+                    </td>
+                    
+
+                    <td style="vertical-align:middle; text-align: center">
+                        @*@Html.ActionLink("Edit", "Edit", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado }) |
+                           @Html.ActionLink("Details", "Details", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado }) |
+                         @Html.ActionLink("Delete", "Delete", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })*@
+                        @if (dif2 > 0)
+                        {
+                            <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href= '@Url.Action("Edit", new {idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })'">Editar</button>
+
+                        }
+                        <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href= '@Url.Action("Details", new {idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })'">Detalles</button>
+                        <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href= '@Url.Action("Delete", new {idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })'">Borrar</button>
+
+
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+</div>
+

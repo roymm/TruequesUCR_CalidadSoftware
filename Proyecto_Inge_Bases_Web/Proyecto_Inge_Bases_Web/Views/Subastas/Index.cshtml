@@ -1,0 +1,188 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Subasta>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+        .cuerpo {
+            margin: auto;
+            width: 88%;
+            padding: 10px;
+            background: rgb(255, 255, 255);
+        }
+
+        div.MediumTextSize {
+            font-size: 125%;
+        }
+
+        div.HeaderTextSize {
+            font-size: 150%;
+        }
+    </style>
+</head>
+
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Subastas activas</h2>
+    </div>
+    <table class="table">
+        <tr>
+            <th style="text-align: center">
+                Imagen
+            </th>
+            <th style="text-align: center">
+                Producto
+            </th>
+            <th style="text-align: center">
+                Precio mínimo
+            </th>
+            <th style="text-align: center">
+                Subastador
+            </th>
+            <th style="text-align: center">
+                Fecha de inicio
+            </th>
+            <th style="text-align: center">
+                Fecha de finalización
+            </th>
+
+            <th style="text-align: center">
+                Tiempo Restante
+            </th>
+
+            <th></th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            //Solo muestra subastas que no hayan finalizado y que no se hayan borrado
+            int dif = DateTime.Compare(item.FechaFin, DateTime.Now);
+            int dif2 = DateTime.Compare(item.FechaInicio, DateTime.Now);
+            if (dif > 0 && dif2 <= 0 && item.Estado != false)
+            {
+
+                var segundosTotalesRestantes = (item.FechaFin - DateTime.Now).TotalSeconds;
+
+
+
+
+                <tr>
+                    <td style="text-align: center">
+                        @if (item.Producto.ProductoImagen1 != null)
+                        {
+                            <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen1)" alt="Imagen" style="width:200px; height:200px" />
+                        }
+                        else if (item.Producto.ProductoImagen2 != null)
+                        {
+                            <img id="idsrc2" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen2)" alt="Imagen" style="width:200px; height:200px" />
+                        }
+                        else if (item.Producto.ProductoImagen3 != null)
+                        {
+                            <img id="idsrc3" src="data:image/png;base64,@Convert.ToBase64String(item.Producto.ProductoImagen3)" alt="Imagen" style="width:200px; height:200px" />
+                        }
+                        else
+                        {
+                            <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" alt="Imagen no disponible" style="width:200px; height:200px">
+                        }
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        ₡@Html.DisplayFor(modelItem => item.PrecioMinimo)
+
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        @Html.DisplayFor(modelItem => item.Producto.Cliente.Registrado.Nombre) @Html.DisplayFor(modelItem => item.Producto.Cliente.Registrado.Apellido1)
+                    </td>
+                    <td style="vertical-align:middle; text-align: center">
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td class="tiempo-fin" style="vertical-align:middle; text-align: center">
+                        @Html.DisplayFor(modelItem => item.FechaFin)
+                    </td>
+                    <td class="tiempo-restante" style=" vertical-align: middle; text-align: center">
+                    </td>
+
+                    <td style=" vertical-align: middle; text-align: center">
+                        @*@Html.ActionLink("Edit", "Edit", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado }) |
+                            @Html.ActionLink("Details", "Details", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado.ToString("MM/dd/yyyy hh:mm:ss.fff") }) |
+                            @Html.ActionLink("Delete", "Delete", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fecha = item.FechaPublicado })*@
+                        @if (item.CorreoSubastador != (string)Session["Correiro"])
+                        {
+                            <button class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="button" onclick="location.href= '@Url.Action("OfertarEnSubasta",  new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fechaPublicado = item.FechaPublicado })'">Ofertar</button>
+
+                            @*@Html.ActionLink("Ofertar", "OfertarEnSubasta", new { idProducto = item.ProductoIDSubastado, correo = item.CorreoSubastador, fechaPublicado = item.FechaPublicado, producto = item.Producto.Nombre, condicion = item.Producto.Condicion, descripcion = item.Producto.Descripcion, precio = item.PrecioMinimo, fechaInicio = item.FechaInicio, fechaFin = item.FechaFin })*@
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+</div>
+
+<script>
+    var listaTiempoFin = document.getElementsByClassName("tiempo-fin");
+    var listaTiempoRestante = document.getElementsByClassName("tiempo-restante");
+
+    //declarados para explicar numeros magicos
+    const diaEnMilisegundos = 24 * 60 * 60 * 1000;
+    const horaEnMilisegundos = 60 * 60 * 1000;
+    const minutoEnMilisegundos = 60 * 1000;
+    const segundoEnMilisegundos = 1000;
+
+    function formatearTiemposRestantes() {
+        for (var i = 0; i < listaTiempoFin.length; i++) {
+            let tiempoFinOriginal = listaTiempoFin[i].innerHTML;
+            let listaFecha = tiempoFinOriginal.split("/");
+            let dia = listaFecha[0];
+            let mes = listaFecha[1] - 1;
+            let año = listaFecha[2].split(" ")[0];
+            let tiempo = listaFecha[2].split(" ")[1];
+            tiempo = tiempo.split(":");
+            let hora = tiempo[0];
+            let minuto = tiempo[1];
+            let segundo = tiempo[2];
+
+            let tiempoFin = new Date(año, mes, dia, hora, minuto, segundo);
+            let tiempoActual = new Date().getTime();
+            let diferenciaTiempo = tiempoFin - tiempoActual;
+            if (diferenciaTiempo > 0) {
+                let tiempoFormateado = "";
+                let tiempos = {};
+                tiempos["d"] = Math.floor(diferenciaTiempo / diaEnMilisegundos);
+                tiempos["h"] = Math.floor((diferenciaTiempo % diaEnMilisegundos) / horaEnMilisegundos);
+                tiempos["m"] = Math.floor((diferenciaTiempo % horaEnMilisegundos) / minutoEnMilisegundos);
+                tiempos["s"] = Math.floor((diferenciaTiempo % minutoEnMilisegundos) / segundoEnMilisegundos);
+
+                let conValor = false;
+                for (var nombreTiempo in tiempos) {
+                    if (tiempos[nombreTiempo] > 0) {
+                        conValor = true;
+                    }
+                    if (conValor) {
+                        tiempoFormateado += `${tiempos[nombreTiempo]}${nombreTiempo}, `;
+                    }
+                }
+                //elimina la ultima coma
+                tiempoFormateado = tiempoFormateado.slice(0, -2);
+                listaTiempoRestante[i].innerHTML = tiempoFormateado;
+            }
+            else {
+                listaTiempoRestante[i].innerHTML = 'Finalizado';
+            }
+        }
+    }
+
+    formatearTiemposRestantes();
+    var calcularTiemposRestantes = setInterval(formatearTiemposRestantes, 1000);
+
+</script>

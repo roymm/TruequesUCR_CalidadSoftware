@@ -1,0 +1,84 @@
+﻿
+
+@using Proyecto_Inge_Bases_Web
+@model Proyecto_Inge_Bases_Web.Views.TruequeViewModels.TruequeModels
+@{
+    ViewBag.Title = "Index";
+
+}
+
+    <head>
+
+        <style>
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                margin-bottom: 30px;
+                padding-bottom: 130px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+
+    </head>
+
+    <div class="cuerpo">
+        <div class="text-muted" style="margin-top: 20px; margin-left : 0px">
+            <h2>Mis Trueques</h2> 
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Mi producto</th>
+                    <th>Producto(s) Ofertado(s)</th>
+                    <th>Persona que oferta</th>
+                </tr>
+            </thead>
+
+
+            @foreach (Proyecto_Inge_Bases_Web.Models.Trueque trueque in Model.Trueques) //Cada trueque con su propia fila
+
+            {
+                <!-- Aca tengo los trueques de los cuales yo soy el publicador-->
+                <!-- De aca, quiero agarrar los productos ofertantes. Para ver quienes y que me han ofrecido-->
+
+
+                foreach (Proyecto_Inge_Bases_Web.Models.Producto producto in Model.Productos)
+                {<!-- For each, ya que hay trueques donde se oferta mas de un producto-->
+                    <!-- Producto todavía no esta "en rango" para que solo me enseñe los productos que estan siendo ofertados para mi-->
+                   
+
+
+                    if ((producto.ProductoID == trueque.ProductoIDOfertante) && (trueque.CorreoPublicador == (string)Session["Correiro"]))
+                    { <!--si el id el producto es el mismo id del conjunto ofertador; Y si el correo publicador es el usuario actual-->
+
+                        <tr >
+                            <td height="100" style="vertical-align:middle">
+                    
+                                @trueque.Producto1.Nombre
+
+                            </td>
+                             <td style="vertical-align:middle">
+                                 @trueque.Producto.Nombre
+                             </td>
+                            <td style="vertical-align:middle"> 
+                                @producto.Cliente.Registrado.Nombre  @producto.Cliente.Registrado.Apellido1
+                            </td> <!-- Nombre y apellido del ofertante-->
+
+                           
+                            
+
+                        </tr>
+                        
+
+                    }
+
+                }
+
+            }
+
+
+
+        </table>
+    </div>

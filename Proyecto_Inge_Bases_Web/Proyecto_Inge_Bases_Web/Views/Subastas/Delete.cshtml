@@ -1,0 +1,78 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Subasta
+
+@{
+    ViewBag.Title = "Delete";
+}
+    <head>
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+
+            div.MediumTextSize {
+                font-size: 125%;
+            }
+
+            div.HeaderTextSize {
+                font-size: 150%;
+            }
+        </style>
+    </head>
+
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Esta seguro que desea eliminar la subasta?</h2>
+    </div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Producto
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Producto.Nombre)
+        </dd>
+        <dt>
+            Precio mínimo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioMinimo)
+        </dd>
+
+        <dt>
+            Fecha de inicio
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInicio)
+        </dd>
+
+        <dt>
+            Fecha de finalización
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaFin)
+        </dd>
+
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @*@Html.AntiForgeryToken()*@
+
+<div class="form-actions no-color">
+    
+    <input class="btn btn-info" style="background-color:  #00c0f3; margin:1px" type="submit" value="Borrar" /> 
+    
+</div>
+    }
+</div>

@@ -1,0 +1,87 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Suspension
+
+@{
+    ViewBag.Title = "Suspension";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<br />
+<h2>Suspender a @Html.Raw(ViewBag.Correo)</h2>
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    @Html.HiddenFor(model => Model.Correo)
+    @Html.HiddenFor(model => Model.FechaInicio)
+    @Html.HiddenFor(model => Model.TipoDenuncia)
+<br />
+<br />
+<br />
+    <div class="container" ,"mt-lg-auto"," ml-lg-auto">
+        <div class="form-group">
+            <br />
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group" style="position: relative; top:8px;">
+                            <label class="control-label">Fecha de Inicio</label>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" value=@DateTime.Today.ToShortDateString() onkeydown="return false" onpaste="return false" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="white-space:normal">
+                        <pre>            </pre>
+                    </td>
+                    <td>
+                        <label class="control-label">Introduzca la fecha de fin</label>
+                        @Html.EditorFor(model => model.FechaFin, new { htmlAttributes = new { @class = "form-control datepicker", @Value = DateTime.Today.AddDays(21).ToShortDateString(), @maxLength = 10, @minLength = 10, @onkeydown = "return false", @onpaste = "return false", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.FechaFin, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <br />
+                <br />
+                <br />
+            </table>
+            <br />
+            <table>
+                <tr>
+                    <td>
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" background="" name="submit" value="Save" class="btn btn-primary" onclick="Validation(); location.href='@Url.Action("Index", "Denuncias")'">Suspender</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            @Html.ActionLink("Cancelar", "Index")
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+}
+
+
+<script>
+    var year = (new Date).getFullYear();
+    var month = (new Date).getMonth();
+    var day = (new Date).getDate();
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        uiLibrary: 'bootstrap4',
+        autoclose: true,
+        minDate: new Date(year, month, day)
+    }).val();
+
+</script>

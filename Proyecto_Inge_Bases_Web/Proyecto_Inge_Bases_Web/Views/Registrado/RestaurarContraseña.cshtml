@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "RestaurarContraseña";
+}
+
+
+@using (Html.BeginForm("RestaurarContraseña", "Registrado", FormMethod.Post))
+{
+    <!--Nueva vista restaurar contraseña-->
+    <div class="card mx-auto text-center" style="width: 32rem; padding:0px 0px 45px 0px; margin-top:35px">
+        <!-- Title of the page-->
+        <div class="card-header text-left" style="padding:25px">
+            <h2>Restaurar Contraseña</h2>
+        </div>
+        <form class="mx-auto">
+            <div class="form-group" style="padding:30px 10px 10px 0px">
+                <label class="d-flex" style="margin-left:80px" for="correo1">Correo electrónico:</label>
+                <input type="email" class="form-control mx-auto" id="correo1" name="correo1" placeholder="Ingrese su correo electrónico" data-error="Por Favor utilice un correo válido" required>
+            </div>
+
+            <a class="name" style=" color:red"> @TempData["ImportError"] </a>
+
+            <!--Mensaje si se envia el correo o no se encuentra la cuenta-->
+            <div class="text-success">
+                @ViewBag.Message
+            </div>
+            <!--Boton restaurar Contraseña-->
+            <div class="d-flex justify-content-center" style="padding:20px">
+                <button type="submit" background="" class="btn btn-info" style="background-color:#00c0f3;margin-top:10px" onclick=" Validation();  ocation.href='@Url.Action("RestaurarContraseña", "Registrado")'">Restaurar Contraseña</button>
+            </div>
+        </form>
+    </div>
+}
+
+
+<!--Script que ayuda a la validación de que las contraseña y su validación sean iguales-->
+<script src="~/Scripts/ValidacionRegistro.js"></script>
+

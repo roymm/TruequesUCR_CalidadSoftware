@@ -1,0 +1,99 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Categoria
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+<div class="container" "mt-lg-auto" " ml-lg-auto"
+<!DOCTYPE html>
+
+<html>
+<head>
+    <br>
+    <br>
+    <meta name="viewport" content="width=device-width" />
+    <title>Modificar</title>
+</head>
+<body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+
+    <div class="form-horizontal">
+        <h4>Modificar @Model.Nombre</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CategoriaID)
+        @Html.HiddenFor(model => model.CorreoUsuarioRegistrado)
+
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="required">Nombre de la categoría</label>
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <label class="required">Categoría padre</label>
+
+              @Html.DropDownList("CategoriaPadreID", null, htmlAttributes: new { @class = "form-control" })
+              @Html.ValidationMessageFor(model => model.CategoriaPadreID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+       
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="EsCategoriaFisica">Tipo de categoría</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <select class="list-box tri-state" id="EsCategoriaFisica" name="EsCategoriaFisica">
+                        @if (@Model.EsCategoriaFisica == true)
+                        {
+                            @*<option value="">Not Set</option>*@
+                            <option selected="selected" value="true">Categoría física</option>
+                            <option value="false">Categoría virtual</option>
+                        }
+                        else
+                        {
+                            @* <option value="">Not Set</option> *@
+                            <option value="true">Categoría física</option>
+                            <option selected="selected" value="false">Categoría virtual</option>
+                        }
+
+                    </select>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="EsCategoriaFisica" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+        </div>
+        @* <div class="form-group">
+            <div class="col-md-3">
+                <label class="required">Correo del administrador quien lo registró</label>
+                @Html.DropDownList("CorreoUsuarioRegistrado", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CorreoUsuarioRegistrado, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @* <input type="submit" value="Save" class="btn btn-default" />*@
+                <button type="submit" background="" name="submit" value="Save" class="btn btn-default" style="background-color:#00c0f3;margin:5px" onclick="Validation(); location.href='@Url.Action("Index", "Categorias")'">Guardar</button>
+            </div>
+        </div>
+    </div>
+                            }
+
+        <div>
+            @*  @Html.ActionLink("Regresar a la lista de categorías", "Index")*@
+            </div>
+        </body>
+        </html>
+          </div>

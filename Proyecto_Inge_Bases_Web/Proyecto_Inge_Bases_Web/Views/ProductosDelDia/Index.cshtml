@@ -1,0 +1,107 @@
+﻿<!--Modulo Estadistica-->
+@model PagedList.IPagedList<Proyecto_Inge_Bases_Web.Models.Productos_Info_Clientes>
+@using System
+@using PagedList.Mvc
+
+@{
+    <br />
+    ViewBag.Title = "Productos del día";
+}
+
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+<div class="container" style="margin-left: 12%; margin-right: 25%;">
+    <br />
+    <h2>@ViewBag.Title</h2>
+    <hr />
+
+    <form class="form-inline" action="">
+        Buscar Producto: &nbsp;@Html.TextBox("SearchString", ViewBag.CurrentFilter as string) &nbsp;
+        <input type="submit" value="Buscar" />
+    </form>
+
+    <div class="row">
+        @{ int cant_productos = 0;
+            foreach (var item in Model)
+            {
+
+                <!--Producto-->
+                <div class="col-md-4 d-flex flex-column" style="padding-bottom: 80px; padding-top: 20px;">
+                    <div style="position: relative;">
+                        <!--Action Link dentro de href para la imagen-->
+                        <a href="#">
+                            <!--Tratar de cambiar el color de hoover effect-->
+
+                            @if (item.ProductoImagen1 != null)
+                            {
+                                <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen1)" alt="Imagen" style="width:364px; height:364px" />
+                            }
+                            else
+                            {
+                                <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" class="w-100" style="width: 364px; height: 364px;" />
+                            }
+
+                        </a>
+                    </div>
+                    <div style="margin-bottom: auto;">
+                        <div class="text-center">
+                            @Html.ActionLink(@item.Nombre, "Details", new { id = item.ProductoID, correo = item.CorreoCliente }, new { style = "color: #444444; font-size: larger;" })
+                        </div>
+                        <table style="margin-top: 30px; width: 100%;">
+                            <tr>
+                                <td class="text-muted text-left">@Html.DisplayFor(modelItem => item.Condicion)</td>
+                                <td class="text-muted text-right"> ₡@Html.DisplayFor(modelItem => item.PrecioEstimado) </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted text-left"> @Html.DisplayFor(modelItem => item.nombre_cliente) </td>
+                                <td class="text-muted text-right">
+                                    @{
+                                        var cnt_estrellas = 0;
+                                        while (cnt_estrellas < item.CalificacionPromedio)
+                                        {
+                                            <p style="display:inline">&#11088</p>
+                                            cnt_estrellas++;
+                                        }
+                                        if (cnt_estrellas == 0)
+                                        {
+                                            <p>Sin Calificación</p>
+                                        }
+                                    }
+
+                                </td>
+                            </tr>
+                            <!--En la siguiente fila (<tr>) Agregar lo de usuario y su calificacion-->
+                        </table>
+
+                    </div>
+                    <!--<a href="#" class="align-self-end btn btn-lg btn-block btn-light" style="margin-top: auto;">Detalles</a> -->
+                </div>
+                cant_productos++;
+            }
+
+            if (cant_productos == 0)
+            {
+                <br />
+                <div class="align-content-center" style="margin-top: 10%; margin-bottom: 10%; margin-left: 20%; margin-right: 20% ">
+                    <h3>No se han publicado productos durante el día</h3>
+                </div>
+
+            }
+
+        }
+    </div>
+
+    <div style="text-align: center; margin-top: 20px">
+        Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+        
+</div>
+
+
+

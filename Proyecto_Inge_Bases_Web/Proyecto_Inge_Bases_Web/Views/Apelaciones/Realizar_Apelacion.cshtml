@@ -1,0 +1,104 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Apelacion
+@{
+    ViewBag.Title = "Realizar_Apelacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h2>Realizar apelación</h2>
+<h4>Detalle a continuación los motivos por los que considera no se ha efectuado adecuadamente la suspensión de usuario.</h4>
+<!DOCTYPE html>
+<br />
+
+<style>
+    textarea {
+        resize: both;
+        max-height: 400px;
+        min-height: 300px;
+        max-width: 800px;
+        min-width: 700px;
+    }
+
+    comentario {
+        width: 200%;
+        background-color: lightgray;
+    }
+
+    th, td {
+        padding: 1px;
+    }
+
+    th {
+        font-size: 25px;
+    }
+
+    .checkmark {
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 50%;
+    }
+
+    p {
+        font-size: 20px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    @Html.HiddenFor(model => model.Correo)
+    @Html.HiddenFor(model => model.FechaApelacion)
+    @Html.HiddenFor(model => model.FechaDenuncia)
+
+    <div class="container" ,"mt-lg-auto"," ml-lg-auto">
+        <div class="form-group">
+            <table style="border:1px solid black;margin-left:auto;margin-right:auto;background-color:white" for="Tipo">
+                <thead>
+                    <tr>
+                        <th><p><pre> Apelación: </pre></p></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0px;">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Comentario, new { htmlAttributes = new { @rows = "30", @cols = "30", @name = "comment", @form = "usrform", @class = "comentorio", @style = "width:200%;background-color:lightgray;" } })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
+        <div class="form-group" align="center">
+            <div>
+                <button style="background-color: #00c0f3;" class="btn btn-danger" type="submit" background="" name="submit" value="Save" onclick="Validation(); location.href='@Url.Action(actionName: "Apelacion_Exitosa", controllerName: "Apelaciones")'"> Enviar apelación</button>
+            </div>
+        </div>
+    </div>
+}
+
+    @*<script>
+            String.prototype.trim = function() {
+              return this.replace(/^\s+|\s+$/g,"");
+            }
+
+            function test_field(){
+              if(document.getElementById("Comentario").value.trim() == ''){
+                alert("La apelación no puede ir vacia");
+                  document.getElementById("Comentario").style.display ="2";
+              }else{
+                alert("3");
+              }
+            }
+        </script>*@

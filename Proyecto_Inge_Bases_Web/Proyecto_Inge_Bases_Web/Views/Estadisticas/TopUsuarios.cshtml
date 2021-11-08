@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.ProductosUsuario>
+@{
+    ViewBag.Title = "TopUsuarios";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+
+@*@foreach (var usuario in Model)
+{
+    <h2>
+        @usuario.Nombre
+        @usuario.CantidadProductos
+    </h2>
+}*@
+    <div class="container" ,"mt-lg-auto"," ml-lg-auto">
+        <html>
+        <head>
+            <style>
+
+
+                table {
+                    border-spacing: 0;
+                    width: 100%;
+                    border: 1px solid #ddd;
+                }
+
+                th {
+                    cursor: pointer;
+                }
+
+                th, td {
+                    text-align: left;
+                    padding: 16px;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f2f2f2
+                }
+            </style>
+        </head>
+        <body>
+            <br>
+            <br>
+            <h2>Usuarios que publican más productos</h2>
+            <br>
+            <br>
+            <table>
+                <tr>
+
+                    <th>Nombre</th>
+                    <th>Primer apellido</th>
+                    <th>Segundo apellido</th>
+                    <th>Correo</th>
+                    <th>Cantidad de productos publicados</th>
+                </tr>
+                <tr>
+                    @foreach (var item in Model)
+                    {
+
+
+                <tr>
+                    <td>@Html.DisplayFor(model => item.Nombre)</td>
+                    <td>@Html.DisplayFor(model => item.Apellido1)</td>
+                    <td>@Html.DisplayFor(model => item.Apellido2)</td>
+                    <td>@Html.DisplayFor(model => item.Correo)</td>
+                    <td>@Html.DisplayFor(model => item.CantidadProductos)</td>
+                </tr>
+                }
+        
+                </table>
+
+        </body>
+    </html>
+    </div>

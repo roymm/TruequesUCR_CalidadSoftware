@@ -1,0 +1,97 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.MostrarListas
+
+@{
+    ViewBag.Title = "Lista de Amigos";
+}
+<head>
+    <!--Este estilo es para que las cartas o contenedores se posicionen juntos-->
+    <style>
+        .card {
+            display: inline-block;
+        }
+    </style>
+</head>
+<!--Icons library-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<div class="row justify-content-center">
+    <div class="col-xs-6">
+        <div class="card mx-auto" style="width: 30rem; margin-top:35px">
+            <div class="card-header text-left" style="padding:25px">
+                <h5>Lista de Amigos </h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @{int cant_amigos = 0;
+                        foreach (var item in ViewBag.Amigos)
+                        {
+                        <tr>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    <td>
+                        @item.Apellido1
+                    </td>
+                    <td>
+                        @item.Apellido2
+                    </td>
+                    <td>
+
+                        @Html.ActionLink(" ", "../Cliente/EliminarAmigos", "Cliente", new { correo = item.CorreoAmigo }, new { @class = "fas fa-trash", style = "color:gray" })
+
+                    </td>
+                        </tr>
+
+                            cant_amigos++;
+                        }
+                        if (cant_amigos == 0)
+                        {
+
+                    <tr> <td style="color:red">La lista está vacía </td> </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <div class="card mx-auto" style="width: 30rem;  margin-top:35px">
+            <div class="card-header text-left" style="padding:25px">
+                <h5>Sugerencias</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    @{int cant_borrados = 0;
+                        foreach (var item in ViewBag.NoAmigos)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td>
+                                    @item.Apellido1
+                                </td>
+                                <td>
+                                    @item.Apellido2
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" ", "../Cliente/AgregarAmigos", "Cliente", new { correo = item.amigo }, new { @class = "fa fa-plus", style = "color:gray" })
+
+                                </td>
+                            </tr>
+                            cant_borrados++;
+                        }
+                        if (cant_borrados == 0)
+                        {
+
+                            <tr> <td style="color:red">La lista está vacía </td> </tr>
+                        }
+                    }
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div> 

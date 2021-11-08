@@ -1,0 +1,57 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Registrado
+
+@{
+    ViewBag.Title = "Delete";
+}
+<br>
+<br>
+<h2 class="titulo" style="margin-left:12px">Borrar usuarios</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal" style="margin-left:20px">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrasena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido2)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @*@Html.AntiForgeryToken()*@
+
+        <div class="form-actions no-color" style="margin-left:15px">
+            <input type="submit" style="margin-bottom : 5px" value="Borrar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver a la lista", "Index")
+        </div>
+    }
+</div>
+

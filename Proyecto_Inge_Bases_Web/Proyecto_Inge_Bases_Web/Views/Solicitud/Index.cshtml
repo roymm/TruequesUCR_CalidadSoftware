@@ -1,0 +1,87 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+        .cuerpo {
+            margin: auto;
+            width: 80%;
+            padding: 30px;
+            background: rgb(255, 255, 255);
+        }
+    </style>
+</head>
+
+<!--Portada-->
+<div class="cuerpo" style="margin-bottom: 250px">
+    <div class="text-muted">
+        <h2>Solicitudes</h2>
+        <hr />
+    </div>
+
+    <!--Tabla que contiene las solicitudes de usuarios-->
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align: center">
+                    Imagen
+                </th>
+                <th style="text-align: center">
+                    Nombre del ofertante
+                </th>
+                <th style="text-align: center">
+                    Productos
+                </th>
+                <th style="text-align: center">
+                    Precio
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var item in Model)*@
+            <tr>
+                <th class="text-center" style="text-align: center; vertical-align:middle">
+                    @*if (item.PathImagen != null)
+                        {
+                            <img src="@Url.Content(item.PathImagen)" alt="Imagen" style="width:100px; height:100px" />
+                        }
+                        else
+                        {
+                            <img src="https://i2.wp.com/www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png?fit=862%2C1104&ssl=1" style="width:100px; height:100px">
+                        }*@
+                    <img src="https://i2.wp.com/www.bicifan.uy/wp-content/uploads/2016/09/producto-sin-imagen.png?fit=862%2C1104&ssl=1" style="width:150px; height:200px" />
+                </th>
+                <th style="text-align: center; vertical-align:middle">
+                    @**@
+                    <p>Lucia Perez</p>
+                </th>
+                <th style="text-align: center; vertical-align:middle">
+                    @* @Html.DisplayFor(modelItem => item.Nombre)*@
+                    Camiseta de rayas
+                </th>
+                <th style="text-align: center; vertical-align:middle">
+                    @*@Html.DisplayFor(modelItem => item.PrecioEstimado)*@
+                    ₡2000
+                </th>
+                <th class="text-center" style="text-align: center; vertical-align:middle">
+                    <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd" />
+                    </svg>
+                    <button class="btn btn-danger" onclick="location.href = '@Url.Action( "Index", "Producto")'">Rechazar</button>
+                    <button class="btn btn-success" onclick="location.href = '@Url.Action( "Index", "Producto")'">Aceptar</button>
+                </th>
+            </tr>
+        </tbody>
+
+    </table>
+    <!--Boton para regresar a "mis productos"-->
+    <div style="text-align: right">
+        <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action( "Index", "Producto")'">Volver</button>
+    </div>
+
+</div>
+

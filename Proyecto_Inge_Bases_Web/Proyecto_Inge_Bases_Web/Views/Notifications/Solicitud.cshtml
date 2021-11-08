@@ -1,0 +1,194 @@
+﻿@*@model Proyecto_Inge_Bases_Web.Models.Producto*@
+@using Proyecto_Inge_Bases_Web
+@using Proyecto_Inge_Bases_Web.Models
+@model Proyecto_Inge_Bases_Web.Views.TruequeViewModels.TruequeModels
+@{
+    ViewBag.Title = "Solicitud";
+}
+
+<head>
+
+    <style>
+
+        .cuerpo {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 130px;
+            background: rgb(255, 255, 255);
+        }
+    </style>
+
+</head>
+
+<div class="cuerpo">
+    <div class="text-muted" style="margin-top: 30px; margin-left : 0px">
+        <h2>Solicitudes de Intercambio por el producto</h2>
+    </div>
+    <table class="table">
+
+        @{
+            /*Combinación para verificar si ya se checkeo los productos ofertados por un usuario para 1 item
+
+
+            */
+            List<int> checkProductoIDPublicador = new List<int>();
+            List<string> checkCorreoOfertante = new List<string>();
+
+
+            List<int> IDProductosOfertados = new List<int>(); /*Todos los ID de productos que un determinado usuario le ofreció a la publicación del otro*/
+            double precioTotal; /*El de todos los productos ofertados*/
+            string nombresProducto; /*El nombre que aparecerá dependiendo si es 1 o varios productos que se le ofrecen al publicador*/
+            string ProductoImagen1 = "";
+            string nombreUsuario = "";
+            string correoUsuario = "";
+            int numeroOferta = 0;
+            string prueba = "hola";
+        }
+
+
+
+        @foreach (Proyecto_Inge_Bases_Web.Models.Trueque truequeBase in Model.Trueques)
+        {//Me fijo en un trueque
+
+            if ((truequeBase.CorreoPublicador == (string)Session["Correiro"]) && !((checkProductoIDPublicador.Contains(truequeBase.ProductoIDPublicador)) && (checkCorreoOfertante.Contains(truequeBase.CorreoOfertante)))) /*Checkeamos yo publiqué el trueque y si ya vimos esta combinación*/
+            {
+                //No hemos checkeado esta combinación todavia. Creamos una nueva fila de trueque en la View
+                checkProductoIDPublicador.Add(truequeBase.ProductoIDPublicador); //Añadimos esta combinación, ya no la puede checkear de nuevo.
+                checkCorreoOfertante.Add(truequeBase.CorreoOfertante);
+                precioTotal = 0;
+                nombresProducto = "";
+
+                bool NuevoUsuario = true;
+                bool primeraVez = true; // Si es la primera vez en donde tuvo 3 productos
+                foreach (Proyecto_Inge_Bases_Web.Models.Trueque trueque in Model.Trueques) //Entramos a checkear cada tupla de trueque.
+                {
+                    //Checkeamos si la oferta se dirige al mismo producto publicado por la misma persona ofertadora. Sino, pertenece a otro trueque por lo que no se checkea
+                    if ((truequeBase.ProductoIDPublicador == trueque.ProductoIDPublicador) && (trueque.CorreoOfertante == truequeBase.CorreoOfertante))
+                    {
+
+                        if (NuevoUsuario)
+                        {
+                            IDProductosOfertados.Clear();
+                            NuevoUsuario = false;
+                        }
+
+                        IDProductosOfertados.Add(trueque.ProductoIDOfertante);//Agrego este producto a la lista de productos ofertados
+                        int IDProdABuscar = trueque.ProductoIDOfertante;
+
+                        //Quite primeravez de aqui
+                        foreach (Proyecto_Inge_Bases_Web.Models.Producto prod in Model.Productos)    //Busco el nombre del producto por el id y obtengo el precio, ocupo entrar al modelo
+                        {
+                            bool tomarDatos = false;
+                            if (prod.ProductoID == IDProdABuscar) //Entró a la condicion, osea encontramos el producto el ofertador que está ofertando
+                            {
+
+                                if (tomarDatos == false)
+                                {
+                                    nombreUsuario = prod.Cliente.Registrado.Nombre + " " + prod.Cliente.Registrado.Apellido1;
+                                    correoUsuario = prod.CorreoCliente;
+                                    tomarDatos = true;
+                                }
+                                precioTotal += prod.PrecioEstimado;
+                                break; //Ya encontré el producto, salgo del foreach
+                            }
+                        }
+                    }
+                }
+                <tr>
+                    <!-- Ahora podemos desplegar los detalles del producto-->
+
+                    @Html.HiddenFor(m => truequeBase.ProductoIDOfertante) <!--Esto lo cambie de trueque.ProductoIDOfertante a truequeBase.ProductoIDOfertante ; ya que no estoy dentro del bloque de trueque para poder agarrarlo. Sino habria que guardarlo en una variable-->
+                    <td>
+                        <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#@prueba" aria-expanded="false" aria-controls="collapseExample">
+                                <img src="~/Fotos/Triangulo.png" width="10" height="10">
+                        </button>
+                    </td>
+                    <td style="vertical-align:middle">
+                        <p> Usuario: @nombreUsuario<br />Correo: @correoUsuario </p>
+                    </td> <!-- Nombre y apellido del ofertante-->
+
+                    <td style="vertical-align:middle; width:100%; padding-left: 10%">
+                        <h5>₡@precioTotal</h5>
+                    </td>
+                    <td></td>
+                    <td style="vertical-align:middle; width:100%">
+                        <div style="display:flex">
+                            <button style="margin-right:3px; margin-left:3px" class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", new { p1 = truequeBase.ProductoIDPublicador, correo = truequeBase.CorreoOfertante })'">Rechazar</button>
+                            @*@Html.ActionLink("Delete", "Delete", new { p1 = trueque.ProductoIDPublicador, c1 = trueque.CorreoPublicador, p2 = trueque.ProductoIDOfertante, c2 = trueque.CorreoOfertante })*@
+
+                            <!--Se va a modificar para usar la opcion de Formulario-->
+                            <button class="btn btn-success" onclick="location.href = '@Url.Action("FormularioEntrega", "Notifications")'">Aceptar</button>
+                        </div>
+                    </td>
+
+                </tr>
+                foreach (var item in Model.Productos)
+                {
+                    if (item.CorreoCliente == truequeBase.CorreoOfertante)
+                    {
+                        <tr class="collapse" id="@prueba">
+                            <td span style="width: 250px;">
+
+                                <h1 style="font-size:xx-large; text-align: center; vertical-align:middle">.</h1>
+                            </td>
+                            <td span style="width: 250px">
+                                <p style="text-align: center; vertical-align:middle ">
+                                    @if (item.ProductoImagen1 != null)
+                                    {
+                                        <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen1)" alt="Imagen" style="width:100px; height:100px" />
+                                    }
+                                    else if (item.ProductoImagen2 != null)
+                                    {
+                                        <img id="idsrc2" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen2)" alt="Imagen" style="width:100px; height:100px" />
+                                    }
+                                    else if (item.ProductoImagen3 != null)
+                                    {
+                                        <img id="idsrc3" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen3)" alt="Imagen" style="width:100px; height:100px" />
+                                    }
+                                    else
+                                    {
+                                        <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" alt="Imagen no disponible" style="width:100px; height:100px">
+                                    }
+                                </p>
+                            </td>
+                            <td span style="width: 250px; vertical-align:middle">
+                                <div class="MediumTextSize">
+                                    <p style="text-align: center; vertical-align:middle">
+                                        @Html.DisplayFor(modelItem => item.Nombre)
+                                    </p>
+                                </div>
+                            </td>
+                            <td span style="width : 200px; vertical-align:middle">
+                                <div class="MediumTextSize">
+                                    <p style="text-align: center; vertical-align:middle">
+                                        ₡@Html.DisplayFor(modelItem => item.PrecioEstimado)
+                                    </p>
+                                </div>
+                            </td>
+
+                            <td span style="width : 150px; vertical-align:middle; padding-left: 5%">
+                                <div class="MediumTextSize" style="display:flex">
+                                    <p style="text-align: center; vertical-align:middle">
+                                        @Html.DisplayFor(modelItem => item.Condicion) &emsp;
+                                    </p>
+                                    <a class="d-block text-dark text-decoration-none" onclick="location.href = '@Url.Action("DetallesProductosOfertados", new { id = item.ProductoID, correo = item.CorreoCliente, p1 = ViewBag.p1, correoOfertante = ViewBag.correo})'">
+                                        <div class="p-1 py-2 mb-2 bg-light text-center rounded">
+                                            <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd" />
+                                                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+            prueba += "a";
+        }
+    </table>
+    @Html.ActionLink("Volver a notificaciones de sus productos", "Recibe" ,"Notifications")
+</div>

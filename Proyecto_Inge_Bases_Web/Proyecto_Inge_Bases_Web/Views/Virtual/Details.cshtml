@@ -1,0 +1,58 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Virtual
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Virtual</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDeArchivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDeArchivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DerechosDeProducto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DerechosDeProducto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fuentes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fuentes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaExpiracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaExpiracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Producto.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Producto.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VirtualID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

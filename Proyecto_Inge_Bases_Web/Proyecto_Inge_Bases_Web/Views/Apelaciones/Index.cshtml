@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Apelacion>
+
+
+@{ ViewBag.Title = "Apelaciones";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml"; }
+<br />
+<h2>Apelaciones de los usuarios suspendidos</h2>
+
+<style>
+    table {
+        background-color: #f2f2f2;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th {
+        cursor: pointer;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid black;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f1f1f1
+    }
+</style>
+
+<table class="container-fluid" ,"mt-lg-auto"," ml-lg-auto" id="myTable">
+    <thead>
+        <tr>
+
+            <th class="text-center">Correo del usuario</th>
+            <th class="text-center" style="width: 250px;"> Apelación </th>
+            <th class="text-center">Causa de la suspensión</th>
+            <th class="text-center">Comentarios de la denuncia</th>
+            <th class="text-center" style="width: 180px;">Fecha de la apelación</th>
+            <th class="text-center" style="width: 295px;">Acción</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+<tbody>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(model => item.Correo)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => item.Comentario)
+        </td>
+
+        <td>
+            @{
+                switch (item.Denuncia.Tipo - 10)
+                {
+                    case 0:
+                        
+                        @Html.ActionLink("Producto ilícito", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    case 1:
+                        
+                        @Html.ActionLink("Lenguaje ofensivo", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    case 2:
+                        
+                        @Html.ActionLink("Descripción engañosa", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    case 3:
+                        
+                        @Html.ActionLink("Producto falso", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    case 4:
+                        
+                        @Html.ActionLink("Incita al odio", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    case 5:
+                        
+                        @Html.ActionLink("Otro", "DetallesProducto", new { id = item.Denuncia.ProductoID, correo = item.Correo })
+                        break;
+
+                    default:
+                        break;
+
+                }
+
+            }
+
+
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => item.Denuncia.Comentarios)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => item.FechaApelacion)
+        </td>
+
+        <td>
+            @Html.ActionLink("Aceptar apelación", "Aceptar_Apelacion", new { denunciado = item.Correo})/
+            @Html.ActionLink("Rechazar apelación", "Rechazar_Apelacion", new { denunciado = item.Correo })
+        </td>
+
+    </tr>
+
+</tbody>
+    }
+
+</table>
+

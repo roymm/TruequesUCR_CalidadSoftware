@@ -1,0 +1,279 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+<!--Modulo Estadistica-->
+
+@{
+    <br />
+    ViewBag.Title = "Lista de Usuarios";
+}
+<!-- Title of the page-->
+<h2>@ViewBag.Title</h2>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #myInput {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        #myTable {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+            #myTable th, #myTable td {
+                text-align: left;
+                padding: 12px;
+            }
+
+            #myTable tr {
+                border-bottom: 1px solid #ddd;
+            }
+
+                #myTable tr.header, #myTable tr:hover {
+                    background-color: #f1f1f1;
+                }
+    </style>
+
+    <style>
+        table {
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+    </style>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h5>Aquí se detalla la información de cada uno de los usuarios registrados en la Aplicación.</h5>
+        <h5>Incluye la siguiente información: correo, nombre completo, calificaciones recibidas y calificación promedio.</h5>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2">
+            <style>
+
+                table {
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                }
+            </style>
+
+            <h2></h2>
+            <table>
+                <tr>
+                    <th>Filtrar por:</th>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="container">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            1 estrella
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="container">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            2 estrellas
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="container">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            3 estrellas
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="container">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            4 estrellas
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="container">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            5 estrellas
+                        </label>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-sm-10">
+            <input type="text" id="myInput" onkeyup="filtrarPorBarraBusqueda()" placeholder="Buscar Nombre o Correo" title="Type in a name">
+
+
+            <table id="myTable">
+                <tr>
+                    <th onclick="sortTable(0)">Correo ⇵</th>
+                    <th onclick="sortTable(1)">Nombre ⇵</th>
+                    <th onclick="sortTable(2)">Calificaciones Recibidas ⇵</th>
+                    <th onclick="sortTable(3)">Calificaciones Promedio  ⇵</th>
+                </tr>
+                <tr>
+                    <td>john@gmail.com</td>
+                    <td>John Ramirez</td>
+                    <td>78</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>carlos@gmail.com</td>
+                    <td>Carlos Oliveira</td>
+                    <td>64</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>marie@gmail.com</td>
+                    <td>Marie Curie</td>
+                    <td>43</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>july@gmail.com</td>
+                    <td>July Rojas</td>
+                    <td>0</td>
+                    <td>Sin Calificación</td>
+                </tr>
+                <tr>
+                    <td>luisa@gmail.com</td>
+                    <td>Luisa Vargas</td>
+                    <td>7</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>victor@gmail.com</td>
+                    <td>Victor Gonzalez</td>
+                    <td>134</td>
+                    <td>2 </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <style>
+        table {
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            cursor: pointer;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+    </style>
+    <script>
+        function filtrarPorBarraBusqueda() {
+            var input, filter, table, tr, tdNombre, tdCorreo, i, txtNombre, txtCorreo;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                tdCorreo = tr[i].getElementsByTagName("td")[0];
+                tdNombre = tr[i].getElementsByTagName("td")[1];
+                if (tdNombre) {
+                    txtNombre = tdNombre.textContent || tdNombre.innerText;
+                    txtCorreo = tdCorreo.textContent || tdCorreo.innerText;
+                    if (txtNombre.toUpperCase().indexOf(filter) > -1 || txtCorreo.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("myTable");
+            switching = true;
+            dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+

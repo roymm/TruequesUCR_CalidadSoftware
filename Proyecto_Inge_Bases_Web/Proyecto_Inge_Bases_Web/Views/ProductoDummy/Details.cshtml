@@ -1,0 +1,106 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Producto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioEstimado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioEstimado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Condicion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Condicion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreImagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreImagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PathImagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PathImagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Publicado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Publicado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaRegistrado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaRegistrado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaPublicado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaPublicado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Calificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Calificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.Pais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Pais)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

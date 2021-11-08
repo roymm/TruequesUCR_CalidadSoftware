@@ -1,0 +1,44 @@
+﻿<!--Modulo Usuario-->
+
+@{
+    ViewBag.Title = "Registro de Usuario";
+}
+
+@using (Html.BeginForm("ValidarRegistro", "Registrado", FormMethod.Post))
+{
+    <!--Container form about Sign Up-->
+    <div class="card mx-auto text-center" style="width: 32rem; padding:0px 0px 45px 0px; margin-top:35px">
+        <!-- Title of the page-->
+        <div class="card-header text-left" style="padding:25px">
+            <h2>Registrarse</h2>
+        </div>
+        <form class="mx-auto">
+            <div class="form-group" style="padding:30px 10px 10px 0px">
+                <label  class="d-flex" style="margin-left:80px" for="email">Correo Electrónico:</label>
+                <input type="email" class="form-control mx-auto" id="email" name="email" placeholder="Ingrese su correo electrónico" data-error="Por Favor utilice un correo válido" required>
+                <a class="name" style=" color:red">@TempData["ImportError"] </a>
+            </div>
+
+            <div class="form-group" style="padding:10px 10px 10px 0px">
+                <label class="d-flex" style="margin-left:80px" for="Contraseña">Contraseña:</label>
+                <input type="password" class="form-control mx-auto" id="Contraseña" name = "Contraseña" placeholder="Ingrese su contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" title="Debe contener al menos 1 mayúscula, 1 minúscula y 1 número.Además debe tener mínimo 8 caracteres y máximo 12" required>
+            </div>
+
+            <div class="form-group" style="padding:10px 10px 10px 0px">
+                <label class="d-flex" style="margin-left:80px"for="ConfirmarContra">Confirmar Contraseña:</label>
+                <input type="password" class="form-control mx-auto" id="ConfirmarContra" placeholder="Confirme su contraseña" oninvalid="equalPasswords(this);" oninput="equalPasswords(this)" required />
+
+            </div>
+            <div class="checkbox">
+                <input class="mx-auto" type="checkbox" name="checkbox" title="Debe aceptar los términos y condiciones de uso" required>  Acepto los <a href="CondicionesUso" class="position-relative stretched-link">términos y condiciones</a> de uso.
+            </div>
+
+            <!--Boton de registrarse y redireccionamiento a registro exitoso-->
+            <div class="d-flex justify-content-center" style="padding:20px">
+                <button type="submit" background="" name="submit" value="submit" class="btn btn-success" style="background-color:#00c0f3;margin-top:10px" onclick = "Validation(); location.href='@Url.Action("ValidarRegistro", "Registrado")'" >Registrarse</button>
+            </div>
+        </form>
+    </div>
+}
+<!--Script que ayuda a la validación de que las contraseña y su validación sean iguales-->
+<script src="~/Scripts/ValidacionRegistro.js"></script>

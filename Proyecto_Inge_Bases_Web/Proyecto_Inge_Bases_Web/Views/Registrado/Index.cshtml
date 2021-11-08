@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Registrado>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br>
+<h2 class="username" style=" margin-left :25px">Indice</h2>
+
+<p class="crear"style="margin-left:25px">
+    @Html.ActionLink("Crear nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Correo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Contrasena)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Apellido1)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Apellido2)
+    </td>
+    <td>
+        @Html.ActionLink("Editar", "Edit", new { Correo = item.Correo }) |
+        @Html.ActionLink("Detalles", "Details", new { Correo = item.Correo }) |
+        @Html.ActionLink("Eliminar", "Delete", new { Correo = item.Correo })
+    </td>
+</tr>
+}
+
+</table>

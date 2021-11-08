@@ -1,0 +1,177 @@
+﻿@model PagedList.IPagedList<Proyecto_Inge_Bases_Web.Models.Producto>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> l1 = new List<SelectListItem>();
+    l1.Add(new SelectListItem() { Text = "Precio:ascendentemente", Value = "Nuevo" });
+    l1.Add(new SelectListItem() { Text = "Precio:descentemente", Value = "Semi-nuevo" });
+    l1.Add(new SelectListItem() { Text = "Usado", Value = "Usado" });
+}
+
+<head>
+    <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+
+        .drop-neon{
+
+        }
+
+        .cuerpo {
+            margin: auto;
+            width: 75%;
+            padding: 30px;
+            background: rgb(255, 255, 255);
+        }
+    </style>
+</head>
+
+
+
+<div class="cuerpo">
+    <div class="text-muted">
+        <h2>Productos Publicados</h2>
+    </div>
+    
+    
+
+    <form style="margin-left : 0px">
+        @using (Html.BeginForm("Index", "Mis Productos", FormMethod.Get))
+        {
+        <div class="form-group form-inline">
+            <!--Esto solo agrega el searchbox hay que acomodarlo al look and feel, sin embargo como está ya sirve-->
+            Buscar Producto: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string) <!--Esto permite seguir viendo el criterio de busqueda-->
+            <input type="submit" value="Buscar" />
+
+            <div class="row", style="margin-left:10px">
+            <a class="d-block text-dark text-decoration-none" onclick="location.href = '@Url.Action("Index", new {  searchBy = ViewBag.SortPriceParm })'">
+                <div class="p-1 py-2 mb-2 bg-light text-center rounded">
+                    <svg class="bi bi-arrow-down-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.646 7.646a.5.5 0 0 1 .708 0L8 10.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z" />
+                        <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </div>
+            </a>
+            <a class="d-block text-dark text-decoration-none" onclick="location.href = '@Url.Action("Index", new {  searchBy = ViewBag.SortPriceParm })'">
+                <div class="p-1 py-2 mb-2 bg-light text-center rounded">
+                    <svg class="bi bi-arrow-up-short" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 5.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5z" />
+                        <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 5.707 5.354 8.354a.5.5 0 1 1-.708-.708l3-3z" />
+                    </svg>
+                </div>
+            </a>
+
+            </div>
+            @* @Html.ActionLink("Precio Estimado", "Index", new { searchBy = ViewBag.SortPriceParm })*@
+        </div>
+        }
+    </form>
+
+    <table class="table">
+
+
+        @*<thead class="thead-light">
+                <tr>
+                    <th>
+                        Imagen
+                    </th>
+                    <th>
+                        Propietario
+                    </th>
+                    <th>
+                        Producto
+                    </th>
+                    <th>
+                        @Html.ActionLink("Precio Estimado", "Index", new { sortOrder = ViewBag.SortPriceParm })
+                    </th>
+                    <th>
+                        Condición
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>*@
+
+        @foreach (var item in Model)
+        {
+            if (item.Publicado != null)
+            {
+                if ((bool)item.Publicado)
+                {
+                    <tr>
+                        <td height="150">
+                            @if (item.ProductoImagen1 != null)
+                            {
+                                <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen1)" alt="Imagen" style="width:150px; height:150px" />
+                            }
+                            else if (item.ProductoImagen2 != null)
+                            {
+                                <img id="idsrc2" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen2)" alt="Imagen" style="width:150px; height:150px" />
+                            }
+                            else if (item.ProductoImagen3 != null)
+                            {
+                                <img id="idsrc3" src="data:image/png;base64,@Convert.ToBase64String(item.ProductoImagen3)" alt="Imagen" style="width:150px; height:150px" />
+                            }
+                            else
+                            {
+                                <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" alt="Imagen no disponible" style="width:150px; height:150px">
+                            }
+                        </td>
+                        <td align="justify" style="vertical-align:middle; padding-right:0px">
+                            <h4> @Html.DisplayFor(modelItem => item.Nombre)</h4>
+
+                            <h6 style="color:lightseagreen">₡@Html.DisplayFor(modelItem => item.PrecioEstimado)</h6>
+
+                        </td>
+                        <td style="vertical-align:middle">
+                            Estado:<br />
+                            @Html.DisplayFor(modelItem => item.Condicion)
+                        </td>
+                        <td align="left" style="vertical-align:middle">
+                            Publicado por:<br />
+                            @Html.DisplayFor(modelItem => item.Cliente.Registrado.Nombre)
+                            @Html.DisplayFor(modelItem => item.Cliente.Registrado.Apellido1) <br />
+
+
+                        </td>
+
+
+                        <!--<td style="vertical-align:middle">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>-->
+                        <td style="vertical-align:middle">
+
+                            <div style="display:inline">
+                                <a class="d-block text-dark text-decoration-none" onclick="location.href = '@Url.Action("Details", new { id = item.ProductoID, correo = item.CorreoCliente })'">
+                                    <div class="p-1 py-2 mb-2 bg-light text-center rounded">
+                                        <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+
+
+        }
+
+    </table>
+
+    <div style="text-align:center; margin-top: 20px">
+        <!--Agrega los botones para la paginacion, falta acomodarlo al look n feel-->
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+
+</div>
+
+   

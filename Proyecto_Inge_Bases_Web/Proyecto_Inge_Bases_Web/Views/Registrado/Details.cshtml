@@ -1,0 +1,53 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Registrado
+
+@{
+    ViewBag.Title = "Details";
+}
+<br>
+<br>
+<h2 class="titulo" style="margin-left:12px">Detalles de usuarios</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal" style="margin-left:20px">
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrasena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido2)
+        </dd>
+
+     
+
+    </dl>
+</div>
+<p class="lista" style="margin-left:25px">
+    @Html.ActionLink("Editar", "Edit", new { Correo = Model.Correo }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>
+

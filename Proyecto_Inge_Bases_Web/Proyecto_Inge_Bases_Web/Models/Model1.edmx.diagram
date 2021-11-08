@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="db6195dba0174c1dbf18c5f24db230fa" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.ClientesRegistrados" Width="1.5" PointX="0.5" PointY="2.625" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaAmigos" Width="1.5" PointX="0.5" PointY="6.375" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaNoamigos" Width="1.5" PointX="0.5" PointY="4.5" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Canton" Width="1.5" PointX="0.75" PointY="19.375" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Resena" Width="1.5" PointX="5.25" PointY="30.25" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Administrador" Width="1.5" PointX="3" PointY="23.125" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Apelacion" Width="1.5" PointX="7.5" PointY="38.25" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Categoria" Width="1.5" PointX="3" PointY="38" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Cliente" Width="1.5" PointX="3" PointY="29.125" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Contrasenas_Anteriores" Width="1.5" PointX="3" PointY="35.375" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Denuncia" Width="1.5" PointX="5.25" PointY="37.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Fisico" Width="1.5" PointX="12.5" PointY="45.875" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.ListaAmigo" Width="1.5" PointX="8.25" PointY="30.625" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.ListaCliente" Width="1.5" PointX="5.25" PointY="27.375" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Pai" Width="1.5" PointX="0.75" PointY="13.625" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Producto" Width="1.5" PointX="10.25" PointY="37.125" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Provincia" Width="1.5" PointX="0.75" PointY="16.5" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Registrado" Width="1.5" PointX="0.75" PointY="29.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Relacion_ClienteOfertaEnSubasta" Width="1.5" PointX="5.25" PointY="34.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Relacion_ClienteTieneInteresCategoria" Width="1.5" PointX="8.25" PointY="34" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Relacion_Sublista_Amigos" Width="1.5" PointX="14.75" PointY="32.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Sublista" Width="1.5" PointX="12.5" PointY="34.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Suspension" Width="1.5" PointX="3" PointY="26.375" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Telefono_Administrador" Width="1.5" PointX="5.25" PointY="23.125" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Trueque" Width="1.5" PointX="12.5" PointY="38.875" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Virtual" Width="1.5" PointX="12.5" PointY="42.75" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Administrador_dbo_Registrado_Correo" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Telefono_Administrador_dbo_Administrador_Correo" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Apelacion_dbo_Denuncia" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Canton_dbo_Provincia" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Cliente_dbo_Canton" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Categoria_dbo_Categoria" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Categoria_dbo_Registrado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Categoria_dbo_Relacion_ClienteTieneInteresCategoria" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Relacion_ClienteOfertaEnSubasta_dbo_Cliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Cliente_dbo_ListaCliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Cliente_dbo_Registrado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Cliente_dbo_Relacion_ClienteTieneInteresCategoria" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_ListaAmigos_dbo_Cliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Producto_dbo_Cliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Producto_dbo_Cliente_Denunciado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Producto_dbo_Cliente_Denunciante" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Resena_dbo_Cliente_Correo" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Resena_dbo_Cliente_Correo_2" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Sublista_dbo_Cliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Contrasenas_Anteriores_dbo_Registrado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Fisico_dbo_Producto_ProductoID_CorreoCliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_ListaAmigos_dbo_Registrado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Sublista_dbo_CorreosListaAmigo" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Provincia_dbo_Pais" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Trueque_dbo_Producto_ConjuntoOfertante" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Trueque_dbo_Producto_ConjuntoPublicador" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Virtual_dbo_Producto_ProductoID_CorreoCliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Suspension_dbo_Registrado" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.FK_dbo_Sublista_dbo_CorreoId" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.CategoriaContieneProductos" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.Relacion_ListaContieneCliente" />
+        <AssociationConnector Association="Proyecto_Inge_Bases_Datos.Models.Relacion_Producto_Visible_A" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Calificaciones_Cliente" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.CategoriaConTruequeActivo" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.ClientesRegistrado" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.PanelSublista" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.Productos_Info_Clientes" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.ProductosUsuario" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.subastasPorCategoria" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaAmigo" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaCruzada" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaEstaEnSublista" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaInteresesCliente" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaMisProducto" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Inge_Bases_Datos.Models.VistaNoAmigo" Width="1.5" PointX="8.75" PointY="3.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,81 @@
+﻿ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - TruequesUCR</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!--Icons library-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+        .navbar {
+            max-height: 62px;
+        }
+    </style>
+</head>
+<body style="background-color: #e6e6e6; padding-bottom: 0%;">
+    <!--Nav Bar-->
+    <nav class="navbar navbar-expand-sm fixed-top navbar-dark" style="background-color:#00c0f3">
+        <!-- Dropdown Category Menu-->
+        <ul class="navbar-nav">
+            <li class="navbar nav-item dropdown">
+                <a class="nav-link navbar-toggler-icon" href="#" data-toggle="dropdown"></a>
+                <div class="dropdown-menu" style="margin-top:9px;position:absolute; left:-20px;">
+                    <a style=" margin-left :20px">Categorías</a>
+                    <a class="dropdown-item disabled" href="#">Ropa</a>
+                    <a class="dropdown-item disabled" href="#">Música</a>
+                    <a class="dropdown-item disabled" href="#">Libros</a>
+                    <a class="dropdown-item disabled" href="#">Electrónicos</a>
+                </div>
+            </li>
+        </ul>
+
+        
+        <!--Brand/Logo-->
+        <a class="navbar-brand" href="/">
+            <img src="~/Images/Logo.svg" alt="Logo" style="height:40px;width:60px " />
+        </a>
+        <!--SubNavBar-->
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <!--SubNavBar Links-->
+            <li class="navbar nav-item">
+                <a class="nav-link" style="margin-left:15px">
+                   
+                </a>
+            </li>
+         
+            <li class="navbar nav-item">
+                <a class="nav-link"style="margin-left:15px">
+                   
+                </a>
+            </li>
+        </ul>
+        <!--SignUp and LogIn Buttons for User Module-->
+        <ul class="nav justify-content-end">
+            <li class="nav-link"style="margin-left:15px">
+                @Html.ActionLink(" Registrarse", "../Registrado/Registro", "Registrado", new { @class = "fas fa-user", style = "color:white" })
+            </li>
+            <li class="nav-link "style="margin-left:15px">
+                @Html.ActionLink(" Iniciar Sesión", "../Registrado/IniciarSesion", "Registrado", new { @class = "fas fa-sign-out-alt", style = "color:white" })
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid body-content" 
+         style="margin-left: 0%; 
+        margin-right: 0%; 
+        padding-left: 0%; 
+        padding-right: 0%;">
+        @RenderBody()
+        <hr />
+        <footer style="height: 120px; background-color: #323232">
+            <img src="~/Images/ucr_promo.png" alt="Logo" style="height:55px;width:80px; margin-left: 30px; margin-top: 30px;" />
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

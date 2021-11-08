@@ -1,0 +1,111 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+    <head>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+        <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+        <script src="jquery-2.2.3.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;">
+            <style style="border:1px solid black;margin-left: 100px ;margin-right:auto;" >
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 30px;
+                background: rgb(255, 255, 255);
+            }
+        </style>
+    </head>
+
+    <div class="cuerpo">
+        <h3 class="text-secondary mt-2">¿Está seguro que desea borrar este producto?</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                <!--@Html.DisplayNameFor(model => model.PrecioEstimado)-->
+                Precio del producto
+            </dt>
+
+            <dd>
+                ₡@Html.DisplayFor(model => model.PrecioEstimado)
+            </dd>
+
+            <dt>
+                <!--@Html.DisplayNameFor(model => model.Condicion)-->
+                Condición
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Condicion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+            </dt>
+
+            <dd>
+
+
+                @if (Model.ProductoImagen1 == null)
+                {
+                    <img src="https://pngimage.net/wp-content/uploads/2018/06/imagen-no-disponible-png-4.png" style="width:100px; height:100px">
+                }
+                else
+                {
+                    <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(Model.ProductoImagen1)" alt="Imagen" style="width:364px; height:364px" />
+
+                }
+            </dd>
+            <dd>
+
+            </dd>
+            <dd>
+
+            </dd>
+
+            <!--Correo-->
+            <div class="form-group">
+                <!--@Html.LabelFor(model => model.CorreoCliente, htmlAttributes: new { @class = "control-label col-md-2 required" })-->
+                <div class="col-md-10">
+                    <!-- @Html.EditorFor(model => model.CorreoCliente, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })-->
+                    <!--Permite que se puede guardar la informacion sin embargo no muestra el correo-->
+                    @Html.HiddenFor(model => model.CorreoCliente)
+                    @Html.ValidationMessageFor(model => model.CorreoCliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </dl><br />
+
+        @using (Html.BeginForm())
+        {
+            @*@Html.AntiForgeryToken()*@
+
+            <div class="form-actions no-color">
+                <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action( "Index")'">Volver</button>
+                <input type="submit" value="Borrar" class="btn btn-info" style="background-color:  #00c0f3" />
+            </div>
+        }
+    </div>

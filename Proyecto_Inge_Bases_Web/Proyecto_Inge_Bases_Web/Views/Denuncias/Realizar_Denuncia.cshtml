@@ -1,0 +1,171 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Denuncia
+@{
+    ViewBag.Title = "Realizar_Denuncia";
+    Layout = "~/Views/Shared/_LayoutCliente.cshtml";
+}
+
+<br />
+<h2>Denunciar usuario</h2>
+<!DOCTYPE html>
+<br />
+@using (Html.BeginForm())
+{
+    @*@Html.AntiForgeryToken()*@
+    @Html.HiddenFor(model => model.Fecha)
+    @Html.HiddenFor(model => model.Denunciante)
+    @Html.HiddenFor(model => model.Denunciado)
+
+        <style>
+            textarea {
+                resize: both;
+                max-height: 400px;
+                min-height: 100px;
+                max-width: 800px;
+                min-width: 400px;
+            }
+            comentario {
+                width: 100%;
+                background-color: lightgray;
+            }
+
+            th, td {
+                padding: 1px;
+            }
+
+            th {
+                font-size: 25px;
+            }
+
+            .checkmark {
+                position: relative;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #eee;
+                border-radius: 50%;
+            }
+
+            p {
+                font-size: 20px;
+            }
+        </style>
+        <div class="container" ,"mt-lg-auto"," ml-lg-auto">
+            <div class="form-group">
+                <table style="border:1px solid black;margin-left:auto;margin-right:auto;background-color:white" for="Tipo">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label style="background-color:white;">
+                                    <h3  style="color: #DC3545; white-space: nowrap;">Denunciar a @Html.Raw(ViewBag.Nombre)</h3>
+                                </label>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th><pre>            </pre></th>
+                            <th></th>
+                            <th><p><pre>Selecciona una razón:                                                       </pre></p></th>
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="0" for="Tipo" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <p>Producto ilícito</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="1" for="Tipo">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td><p>Lenguaje ofensivo</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="2" for="Tipo">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td><p>Descripción engañosa</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="3" for="Tipo">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td><p>Producto falso</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="4" for="Tipo">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td><p>Incita al odio</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <label class="container">
+                                    <input type="radio" name="Tipo" value="5" for="Tipo">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td><p>Otros</p></td>
+                        </tr>
+                        <tr style="padding-bottom:2px">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <p>Comentarios:</p>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="padding: 0px;">
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.TextAreaFor(model => model.Comentarios, new { htmlAttributes = new { @rows = "10", @cols = "30", @name = "comment", @form = "usrform", @class = "comentorio", @style = "width:100%;background-color:lightgray;" } })
+                                        @Html.ValidationMessageFor(model => model.Comentarios, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </td>   
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div class="form-group">
+                <div>
+                    <button type="submit" background="" name="submit" value="Save" class="btn btn-danger" onclick="Validation(); location.href='@Url.Action("Index", "ProductosDelDia")'">Denunciar</button>
+                </div>
+            </div>
+        </div>
+}

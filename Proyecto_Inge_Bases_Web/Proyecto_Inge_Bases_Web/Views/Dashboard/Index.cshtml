@@ -1,0 +1,507 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Calificaciones_Cliente>
+@using System
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdministrador.cshtml";
+}
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 500px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+        }
+    </style>
+</head>
+
+<br />
+<br>
+<br>
+
+@*@ViewBag.ListaNombreString
+    @ViewBag.ListaCanProductosString*@
+<div class="container" style="margin-left: 2%;">
+    <h2>Panel de control</h2>
+</div>
+<div class="row">
+    <div class="col-sm">
+        <br />
+        <div style="padding-left: 10%">
+            <div style="width: 400px; height: 450px; margin-right: 10%; background-color: #fafafa; border: 1px solid #dedede; ">
+                <h5>Cantidad de usuarios según su calificación promedio</h5>
+                <canvas id="CntUsuarios" width="400" height="400" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("CntUsuariosModal")'></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div style="padding-left: 5%">
+            <br />
+            <div style="width: 400px; height: 450px; margin-right: 5%; background-color: #fafafa; border: 1px solid #dedede; ">
+                <h5>Edades de los usuarios registrados</h5>
+                <canvas id="EdadesUsuarios" width="300" height="300" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("EdadesUsuariosModal")'></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div style="padding-left: 5%">
+            <br />
+            <div style="width: 400px; height:450px ; margin-right: 5%; background-color: #fafafa; border: 1px solid #dedede; ">
+                <h5>Cantidad de productos por categorías</h5>
+                <canvas id="CntCatProd" width="400" height="400" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("CntCatProdModal")'></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm">
+        <div style="padding-left: 10%">
+            <br />
+            <div style="width: 400px; height:450px ; margin-right: 25%; background-color:#fafafa; border: 1px solid #dedede; ">
+                <h5>Trueques activos por categorías</h5>
+                <canvas id="CntCatTrueque" width="400" height="400" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("CntCatTruequeModal")'></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm">
+        <div style="padding-left: 5%">
+            <br />
+            <div style="width: 400px; height:450px ; margin-right: 25%; background-color:#fafafa; border: 1px solid #dedede; ">
+                <h5>Subastas activas por categorías</h5>
+                <canvas id="CntCatSubastas" width="400" height="400" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("CntCatSubastasModal")'></canvas>
+            </div>
+        </div>
+    </div>
+    @*Temporal*@
+    <div class="col-sm">
+        <div style="padding-left: 5%">
+            <br />
+            <div style="width: 400px; height:450px ; margin-right: 25%; background-color:#fafafa; border: 1px solid #dedede; ">
+                <h5>Cantidad de productos por categorías - Entretenimiento</h5>
+                <canvas id="CntCatPro2" width="400" height="400" data-toggle="modal" data-target="#graficoModal" onclick='ExpandirGrafico("CntCatPro2Modal")'></canvas>
+            </div>
+        </div>
+    </div>
+    @*Temporal*@
+
+</div>
+
+<div class="modal fade" id="graficoModal" tabindex="-1" role="dialog" aria-labelledby="graficoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 40%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="graficoModalLabel">...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@{ int c0 = 0, c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+    foreach (var item in Model)
+    {
+        int? calculoPromedio = 0;
+        if (item.CantidadResenas != 0)
+        {
+            calculoPromedio = item.SumaCalificaciones / item.CantidadResenas;
+        }
+
+        if (item.CantidadResenas == 0)
+        {
+            c0++;
+        }
+        if (calculoPromedio == 1)
+        {
+            c1++;
+        }
+        if (calculoPromedio == 2)
+        {
+            c2++;
+        }
+        if (calculoPromedio == 3)
+        {
+            c3++;
+        }
+        if (calculoPromedio == 4)
+        {
+            c4++;
+        }
+        if (calculoPromedio == 5)
+        {
+            c5++;
+        }
+    }
+
+    int e1 = 0, e2 = 0, e3 = 0, e4 = 0, e5 = 0, total_edades = 0;
+    decimal prc1 = 0, prc2 = 0, prc3 = 0, prc4 = 0, prc5 = 0;
+    var fecha = System.DateTime.Now.Year;
+    foreach (var item in Model)
+    {
+        if ((fecha - item.fechaNacimiento) < 29)
+        {
+            e1++;
+        }
+        if ((fecha - item.fechaNacimiento) >= 29 && (fecha - item.fechaNacimiento) < 39)
+        {
+            e2++;
+        }
+        if ((fecha - item.fechaNacimiento) >= 39 && (fecha - item.fechaNacimiento) < 49)
+        {
+            e3++;
+        }
+        if ((fecha - item.fechaNacimiento) >= 49 && (fecha - item.fechaNacimiento) < 59)
+        {
+            e4++;
+        }
+        if ((fecha - item.fechaNacimiento) >= 59)
+        {
+            e5++;
+        }
+
+        total_edades++;
+    }
+
+    prc1 = ((decimal)e1 / total_edades) * 100;
+    prc2 = ((decimal)e2 / total_edades) * 100;
+    prc3 = ((decimal)e3 / total_edades) * 100;
+    prc4 = ((decimal)e4 / total_edades) * 100;
+    prc5 = ((decimal)e5 / total_edades) * 100;
+
+    e1 = (int)prc1;
+    e2 = (int)prc2;
+    e3 = (int)prc3;
+    e4 = (int)prc4;
+    e5 = (int)prc5;
+
+    <script>
+
+        function GenerarGraficoCntUsuarios(canvas) {
+
+
+            //Promedio de calificaciones de usuarios - Barra
+            var ctx = document.getElementById(canvas);
+            var myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ['5 Estrellas', '4 Estrellas', '3 Estrellas', '2 Estrellas', '1 Estrella', 'Sin Calificación'],
+                    datasets: [{
+                        label: 'Cantidad de usuarios',
+                        data: [@c5, @c4, @c3, @c2, @c1, @c0],
+                        backgroundColor: [
+                            'rgb(202, 240, 260)',
+                            'rgb(202, 240, 248)',
+                            'rgb(0, 180, 216)',
+                            'rgb(0, 180, 216)',
+                            'rgb(0, 119, 182)',
+                            'rgb(3, 4, 94)'
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }],
+                        xAxes: [{
+
+                        }]
+                    }
+                }
+            });
+        }
+
+        function GenerarGraficoEdadesUsuarios(canvas) {
+            //Edades de Usuarios - Pastel
+            var ctx2 = document.getElementById(canvas);
+            var myChart = new Chart(ctx2, {
+
+                type: "pie",
+                data: {
+                    labels: ['18-29', '30-39', '40-49', '50-59', '60+'],
+                    datasets: [{
+                        label: 'Edad de los ususarios',
+                        data: [@e1, @e2, @e3, @e4, @e5],
+                        backgroundColor: [
+                            'rgb(224, 92, 20)',
+                            'rgb(131, 162, 247)',
+                            'rgb(247, 230, 131)',
+                            'rgb(51, 189, 9)',
+                            'rgb(10, 214, 250)'
+                        ]
+                    }]
+                },
+
+                options: {
+                    //responsive: true,
+                    //maintainAspectRatio: false,
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return data['labels'][tooltipItem['index']] + ': ' + data['datasets'][0]['data'][tooltipItem['index']] + '%';
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function GenerarGraficoCntCatProd(canvas) {
+            //Productos en Categorias - Barra
+            var ctx3 = document.getElementById(canvas);
+            var myChart = new Chart(ctx3, {
+                type: "horizontalBar",
+                data: {
+                    labels: [@Html.Action("CategoriaLabels", "Dashboard", new { raiz = 0})],
+                    datasets: [{
+                        label: 'Cantidad de productos',
+                        data: [@Html.Action("CantidadProductosCategoriaDatos", "Dashboard", new { raiz = 0})],
+                        backgroundColor: [
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+                            'rgb(181, 7, 138)',
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+         function GenerarGraficoCntCatSubastas(canvas) {
+            //Productos en Categorias - Barra
+            var ctx3 = document.getElementById(canvas);
+            var myChart = new Chart(ctx3, {
+                type: "horizontalBar",
+                data: {
+                    labels: [@Html.Action("CategoriaLabels", "Dashboard", new { raiz = 0})],
+                    datasets: [{
+                        label: 'Cantidad de productos',
+                        data: [@Html.Action("CantidadSubastasCategoriaDatos", "Dashboard", new { raiz = 0})],
+                        backgroundColor: [
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+                            'rgb(181, 7, 138)',
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+           @*function GenerarGraficoCntCatTrueque(canvas) {
+            //Productos en Categorias - Barra
+            var ctx3 = document.getElementById(canvas);
+            var myChart = new Chart(ctx3, {
+                type: "horizontalBar",
+                data: {
+                    labels: [@Html.Action("CategoriaLabels", "Dashboard", new { raiz = 0})],
+                    datasets: [{
+                        label: 'Cantidad de productos',
+                        data: [@Html.Action("CantidadTruequesCategoriaDatos", "Dashboard", new { raiz = 0})],
+                        backgroundColor: [
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+                            'rgb(181, 7, 138)',
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }*@
+        
+        
+
+         //GenerarGraficoCntUsuarios("CntUsuarios");
+        // GenerarGraficoEdadesUsuarios("EdadesUsuarios")
+       // GenerarGraficoCntCatProd("CntCatProd");
+        //GenerarGraficoCntCatSubastas("CntCatSubastas");
+        //GenerarGraficoCntCatTrueque("CntCatTrueque");
+
+        //Temporal
+       
+
+        function GenerarGraficoCntCatProd2(canvas) {
+            //Productos en Categorias - Barra
+            var ctx3 = document.getElementById(canvas);
+            var myChart = new Chart(ctx3, {
+                type: "horizontalBar",
+                data: {
+                    labels: [@Html.Action("CategoriaLabels", "Dashboard", new { raiz = 1})],
+                    datasets: [{
+                        label: 'Cantidad de productos',
+                        data: [@Html.Action("CantidadProductosCategoriaDatos", "Dashboard", new { raiz = 1})],
+                        backgroundColor: [
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+                            'rgb(181, 7, 138)',
+                            'rgb(133, 247, 131)',
+                            'rgb(110, 8, 150)',
+                            'rgb(247, 230, 131)',
+                            'rgb(217, 94, 17)',
+                            'rgb(252, 147, 10)',
+
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        GenerarGraficoCntCatProd2("CntCatPro2");
+
+        //Temporal
+    </script>
+}
+
+<script>
+    function ExpandirGrafico(id) {
+
+        $('.modal-body').html('<canvas id=' + id + ' width="800" height="800" style="width: 800px; height: 800px;"></canvas>');
+        switch (id) {
+            case "CntUsuariosModal":
+                GenerarGraficoCntUsuarios(id);
+                $('.modal-header').html('<b>Cantidad de usuarios según su calificación promedio</b>');
+                break;
+            case "EdadesUsuariosModal":
+
+                $('.modal-header').html('<b>Edades de los usuarios registrados </b>');
+                GenerarGraficoEdadesUsuarios(id);
+                break;
+            case "CntCatProdModal":
+                $('.modal-header').html('<b>Cantidad de productos por categorías</b>');
+                GenerarGraficoCntCatProd(id);
+                break;
+            case "CntCatSubastasModal":
+                $('.modal-header').html('<b>Cantidad de subastas activas por categorías</b>');
+                GenerarGraficoCntCatSubastas(id);
+                break;
+            case "CntCatTruequeModal":
+                $('.modal-header').html('<b>Trueques activos por categorías</b>');
+                GenerarGraficoCntCatTrueque(id);
+                break;
+            case "CntCatPro2Modal":
+                $('.modal-header').html('<b>Cantidad de productos por categorías - Entretenimiento</b>');
+                GenerarGraficoCntCatProd2(id);
+            default:
+                break;
+        }
+
+        $('#graficoModal').modal('show');
+    }
+
+    $('#graficoModal').on('hidden.bs.modal', function (e) {
+        $('.modal-body').html("");
+    })
+</script>

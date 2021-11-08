@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -TruequesUCR</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!--Icons library-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <style>
+        h1 {
+            display: block;
+            font-size: 15px;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+        }
+        /* Dropdown Button */
+        .dropbtn {
+            background-color: #00c0f3;
+            color: white;
+            padding: 16px;
+            font-size: 10px;
+            border: none;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: -60px;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+                /* Change color of dropdown links on hover */
+                .dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: rgba(0,0,0,0.6);
+            color: #f1f1f1;
+        }
+    </style>
+</head>
+
+<body style="background-color: #e6e6e6; padding-bottom: 0%;">
+    <!--Nav Bar-->
+    <nav class="nav navbar-expand-sm fixed-top navbar-dark" style="background-color:#00c0f3">
+        <!-- Dropdown Category Menu-->
+        <ul class="navbar-nav">
+            <li class="navbar nav-item dropdown">
+                <a class="nav-link navbar-toggler-icon" href="#" data-toggle="dropdown" style=" margin-left:16px;margin-top:11px"></a>
+                <div class="dropdown-menu" style="margin-top:-2px">
+                    <h1 class="username" style=" margin-left :25px">¡Hola @Session["UserName"]!</h1>
+                    <!--Comentando las categorias quemadas
+                     <a class="dropdown-item disabled" href="#">Ropa</a>
+                     <a class="dropdown-item disabled" href="#">Música</a>
+                     <a class="dropdown-item disabled" href="#">Libros</a>
+                     <a class="dropdown-item disabled" href="#">Electrónicos</a>
+                    -->
+                    
+                    <a class="dropdown-item enabled" href="~/Notifications/Recibe">Notificaciones</a>
+                    <a class="dropdown-item enabled" href="~/Cliente/ListaAmigos">Mis Amigos</a>
+                    <a class="dropdown-item enabled" href="~/Cliente/ListaDeAmigosSublistas">Mis Sublistas de Amigos</a>
+                    <a class="dropdown-item enabled" href="~/Cliente/PerfilCliente">Mi Perfil</a>
+                    <a class="dropdown-item enabled" href="~/Notifications/MisTrueques">Mis Trueques</a>
+                    <a class="dropdown-item enabled" href="~/Producto">Mis Productos</a>
+                    <a class="dropdown-item enabled" href="~/Subastas/misSubastas">Mis Subastas</a>
+                    <a class="dropdown-item enabled" href="~/Subastas/Index">Subastas activas</a>
+
+                </div>
+            </li>
+        </ul>
+        <!--Brand/Logo-->
+        <a class="navbar-brand " href="/">
+            <img src="~/Images/Logo.svg" alt="Logo" style="height:40px;width:60px; margin-left:0px;margin-top:6px " />
+        </a>
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <!--SubNavBar Links-->
+            <li class="navbar nav-item">
+                <a class="nav-link" style="margin-left:15px">
+                    @Html.ActionLink("Productos del Día", "../ProductosDelDia/Index", "ProductosDelDia", new { style = "color:white" })
+                </a>
+            </li>
+
+            <li class="navbar nav-item">
+                <a class="nav-link" style="margin-left:15px">
+                    @Html.ActionLink("Ver Productos", "../Ofertas/Index", "Ofertas", new { style = "color:white" })
+                </a>
+            </li>
+            <li class="navbar nav-item">
+                <a class="nav-link" style="margin-left:15px; color:white" data-toggle="modal" data-target="#exampleModal">
+                    Publicar
+                </a>
+            </li>
+
+        </ul>
+        <!--user and settings-->
+        <div class="navbar-nav ml-auto dropdown" style=" margin-right: 20px;">
+            <button class="dropbtn" name="dropb"> <i class="fas fa-user fa-3x "></i></button>
+            <div class="dropdown-content" style="margin-right: 15px">
+                <a href="~/Cliente/EditarPerfil">Cuenta</a>
+                <a href="~/Registrado/IniciarSesion">Cerrar Sesión</a>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <style>
+
+            .modal-lg {
+                max-width: 32.5%;
+            }
+        
+        </style>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title w-100" id="exampleModalLabel">¿Qué desea publicar?</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="display:flex">
+                    <table>
+                        <tr>
+                        <td style="text-align:center">
+                    <button style="margin-right:3px; margin-left:3px" class="btn btn-light" onclick="location.href = '@Url.Action("Publicar", "Producto")'">
+                        <a data-toggle="modal" data-target="#myModal">
+                            <img src="~/Fotos/SignoTrueque.jpg">
+                        </a>
+                    </button>
+                    </td>
+                    <td style="text-align:center">
+                    <button style="margin-right:3px; margin-left:3px" class="btn btn-light" onclick="location.href = '@Url.Action("ListaProductos", "Subastas")'">
+                        <a data-toggle="modal" data-target="#myModal">
+                            <img src="~/Fotos/SignoSubasta.jpg">
+                        </a>
+                    </button>
+                    </td>
+                    </tr>
+                        <tr>
+                            <td style="text-align:center">
+                                <p style="font-size:30px">Publicar Trueque</p>
+                            </td>
+                            <td style="text-align:center">
+                                <p style="font-size:30px">Publicar Subasta</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

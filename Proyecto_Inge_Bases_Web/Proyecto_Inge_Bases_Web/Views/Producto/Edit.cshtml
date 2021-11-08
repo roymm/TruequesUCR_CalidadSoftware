@@ -1,0 +1,229 @@
+﻿@model Proyecto_Inge_Bases_Web.Models.Producto
+
+@{
+    ViewBag.Title = "Edit";
+    List<SelectListItem> l1 = new List<SelectListItem>();
+    l1.Add(new SelectListItem() { Text = "Nuevo", Value = "Nuevo" });
+    l1.Add(new SelectListItem() { Text = "Semi-nuevo", Value = "Semi-nuevo" });
+    l1.Add(new SelectListItem() { Text = "Usado", Value = "Usado" });
+}
+
+@using (Html.BeginForm("Edit", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+
+    @*@Html.AntiForgeryToken()*@
+
+    <head>
+        <style>
+
+            textarea {
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                max-width: 1000px;
+            }
+
+            .cuerpo {
+                margin: auto;
+                width: 60%;
+                padding: 10px;
+                background: rgb(255, 255, 255);
+            }
+
+            label.required::after {
+                content: "*";
+                margin-right: 4px;
+                color: red;
+            }
+        </style>
+
+    </head>
+
+    <div class="cuerpo">
+        <div class="text-secondary mt-4">
+            <h2 style="font-weight:500; font-family:inherit; color:inherit">Editar producto</h2>
+        </div>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProductoID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2 required" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--Correo-->
+        <div class="form-group">
+            <!--@Html.LabelFor(model => model.CorreoCliente, htmlAttributes: new { @class = "control-label col-md-2 required" })-->
+            <div class="col-md-10">
+                <!-- @Html.EditorFor(model => model.CorreoCliente, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })-->
+                <!--Permite que se puede guardar la informacion sin embargo no muestra el correo-->
+                @Html.HiddenFor(model => model.CorreoCliente)
+                @Html.ValidationMessageFor(model => model.CorreoCliente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!--@Html.LabelFor(model => model.PrecioEstimado, htmlAttributes: new { @class = "control-label col-md-2 required" }) -->
+            <div class="col-md-10">
+                <label class="required">Precio estimado</label>
+                @Html.EditorFor(model => model.PrecioEstimado, new { htmlAttributes = new { @class = "form-control-neon", required = "required" } })
+                @Html.ValidationMessageFor(model => model.PrecioEstimado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            <div class="col-md-10">
+                <label class="required">Categoría</label> <br />
+                @* Hacer select de las categorías *@
+                @*@Html.DropDownList("Categoria", (SelectList)ViewBag.Categoria, new { @class = "form-control" })*@
+                @* *@
+                <div class=" col-12" style=" max-height:150px; max-width:200px; overflow-y:auto;overflow-y:auto">
+
+                    @foreach (var item in ViewBag.Categoria)
+                    {
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBox("item", false, new { required = "required" }) @item.Text
+                                @*<input type="checkbox" value="@item.Value" /> @item.Text*@
+                            </label>
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+
+        <div class="form-group">
+            <!--@Html.LabelFor(model => model.Condicion, htmlAttributes: new { @class = "control-label col-md-2 required" }) -->
+            <div class="col-md-10">
+                <label class="required">Condición</label>
+                <!--@Html.EditorFor(model => model.Condicion, new { htmlAttributes = new { @class = "form-control", required = "required" } })-->
+                @Html.DropDownListFor(model => model.Condicion, l1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Condicion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Descripcion, 3, 90, new { htmlAttributes = new { @class = "form-control-neon" } })
+                @*@Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control-neon" } })*@
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.ProductoImagen1, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.ProductoImagen2, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.ProductoImagen3, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.FechaRegistrado, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control" } })
+
+        <table>
+            <tr>
+                <td>
+                    <div class="form-group" style="border: ">
+                        <!--form-group-->
+                        <label class="col-md-10">Imagen 1 (Imagen principal)</label>
+
+                        @if (Model.ProductoImagen1 != null)
+                        {
+                            <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(Model.ProductoImagen1)" alt="Imagen" style="width:100px; height:100px; margin-left:15px" />
+                        }
+                        <div class="col-md-10" style="margin-left:15px">
+
+                            <input type="file" class="custom-file-input" id="customFileLangHTML1" name="Archivo_Imagen1" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this,1);" /><!--Cambie el id:Archivo_Imagen-->
+                            <label class="custom-file-label" for="customFileLangHTML1" data-browse="Subir">Subir Imagen</label>
+                            @Html.ValidationMessageFor(model => model.ProductoImagen1, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-md-10" style="margin-left:15px">
+                            <img id="imagen1" src="#" alt="" />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group" style="border: ">
+                        <!--form-group-->
+                        <label class="col-md-10">Imagen 2</label>
+                        @if (Model.ProductoImagen2 != null)
+                        {
+                            <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(Model.ProductoImagen2)" alt="Imagen" style="width:100px; height:100px; margin-left:15px" />
+
+                        }
+                        <div class="col-md-10" style="margin-left:15px">
+
+                            <input type="file" class="custom-file-input" id="customFileLangHTML2" name="Archivo_Imagen2" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this,2);" /><!--Cambie el id:Archivo_Imagen-->
+                            <label class="custom-file-label" for="customFileLangHTML2" data-browse="Subir">Subir Imagen</label>
+                            @Html.ValidationMessageFor(model => model.ProductoImagen2, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-md-10" style="margin-left:15px">
+                            <img id="imagen2" src="#" alt="" />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group" style="border: ">
+                        <!--form-group-->
+                        <label class="col-md-10">Imagen 3</label>
+                        @if (Model.ProductoImagen3 != null)
+                        {
+                            <img id="idsrc1" src="data:image/png;base64,@Convert.ToBase64String(Model.ProductoImagen3)" alt="Imagen" style="width:100px; height:100px; margin-left:15px" />
+                        }
+                        <div class="col-md-10" style="margin-left:15px">
+
+                            <input type="file" class="custom-file-input" id="customFileLangHTML3" name="Archivo_Imagen3" accept=".jpg, .png, .jpeg" value="Buscar Imagen" onchange="muestreImgPre(this,3);" /><!--Cambie el id:Archivo_Imagen-->
+                            <label class="custom-file-label" for="customFileLangHTML3" data-browse="Subir">Subir Imagen</label>
+                            @Html.ValidationMessageFor(model => model.ProductoImagen3, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-md-10" style="margin-left:15px">
+
+                            <img id="imagen3" src="#" alt="" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+
+            <!--@Html.LabelFor(model => model.Publicado, new { htmlAttributes = new { @class = "control-label col-md-2" } })-->
+            <div class="col-md-10">
+                <label>Publicar</label>
+                @Html.CheckBox("Publicado")<br />
+                <!-- Lleva a la vista de crear subasta -->
+                <!--@Html.RadioButtonFor(model=> model.Publicado, "true")-->
+                @Html.ValidationMessageFor(model => model.Publicado, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+
+        <!-- Boton Save, o Guardar; arreglar esto-->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-info" style="background-color:  #00c0f3" type="button" onclick="location.href = '@Url.Action( "Index")'">Volver</button>
+                <input type="submit" value="Guardar" class="btn btn-info" style="background-color: #00c0f3" />
+            </div>
+            <div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="~/Scripts/VistaPreviaImg.js"></script>
+
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

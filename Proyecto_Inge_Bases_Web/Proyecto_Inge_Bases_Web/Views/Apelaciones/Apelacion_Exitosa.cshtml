@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Apelacion_Exitosa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mx-auto text-center" style="width: 25rem; padding:0px 0px 45px 0px; margin-top:35px">
+    <!--Titulo de la pagina-->
+    <div class="card-header text-center" style="padding:25px">
+        <h2>¡Envío de apelación exitoso!</h2>
+    </div>
+    <div class="card-body" style="padding:20px 30px 25px 30px">
+        <p>Se ha enviado la apelación al administrador para reevaluar el caso, se le enviará un correo indicando el estado de su cuenta proximamente.</p>
+    </div>
+    <!--Boton de volver a iniciar sesión-->
+    <div class="d-flex justify-content-center" style="padding:10px">
+        <a style="background-color: #00c0f3;" class="btn btn-danger" href="@Url.Action(actionName: "IniciarSesion", controllerName: "Registrado")"> Aceptar </a>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+@using (Html.BeginForm("ValidarInicioSesion", "Registrado", FormMethod.Post))
+{
+    <div class="card mx-auto text-center" style="width: 28rem; padding:0px 0px 45px 0px; margin-top:35px">
+        <!-- Title of the page-->
+        <div class="card-header text-left" style="padding:25px">
+            <h2>Iniciar Sesion</h2>
+        </div>
+
+        <form class="mx-auto">
+
+            <div class="form-group" style="padding:30px 10px 10px 0px">
+
+                <!---  <label class="d-flex justify-content-start" for="email"></label>-->
+                <label class="d-flex" style="margin-left:80px" for="correo1">Correo electrónico:</label>
+                <!--Inicio Actividad Supervisada 17-06/2020 Johan Murillo -- Ricardo Alfaro -->
+                <!--En el espacio de correo, se indica que el input type es "correo", con lo cual se delimita 
+                 que tiene que existir un arroba , además de que se delimitan algunos caracteres antes y después del arroba.
+                 Dentro del código nos encontramos que se tiene un pattern para la contraseña, en el cual se indica 
+                 que debe estar conformada por al menos 1 letra mayúscula, 1 letra minúscula y 1 número. Además su 
+                 límite es de 8 caracteres mínimo y 12 máximo. Además de esto, se delimita el ingreso de algunos caracteres.-->
+                <input type="email" class="form-control mx-auto" size=" 25 " id="correo1" name="correo1" placeholder="Introducir correo electrónico" data-error="Por Favor utilice un correo válido" required>
+            </div>
+
+            <div class="form-group" style="padding:10px 10px 10px 0px">
+                <!--Tambien se debe mencionar que aqui se reciben los parametros por medio de las forms, y posteriormente se manipulan desde el controller,
+          de manera que la vista no tiene acceso directo a la base de datos.-->
+                <!--- <label class="d-flex justify-content-start" for="Contraseña"></label> -->
+                <!-- Dentro-->
+                <label class="d-flex" style="margin-left:80px" for="Contraseña1">Contraseña:</label>
+                <input type="password" class="form-control mx-auto" size=" 25 " id="Contraseña1" name="Contraseña1" placeholder="Introducir contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,12}" title="La contraseña debe estar conformada por al menos 1 letra mayúscula, 1 letra minúscula y 1 número. Además su límite es de 8 caracteres mínimo y 12 máximo." required>
+                <br />
+                <a class="name" style=" color:red"> @TempData["ImportError"] </a>
+
+                <!--- Supervisada 06/10/2020 OC-2.6 Johan Murillo - César Vásquez -->
+                <div class="checkbox" style="margin-right:110px">
+                <input class="" name="checkbox5" id="checkbox6" type="checkbox" value="True" title="Reactivar la cuenta" @TempData["checked"]><a> Reactivar cuenta</a>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-center" style="padding:20px">
+                <button type="submit" background="" name="submit" value="submit" class="btn btn-success" style="background-color:#00c0f3;margin:5px" onclick="Validation(); location.href='@Url.Action("ValidarInicioSesion", "Registrado")'">Iniciar Sesión</button>
+            </div>
+            <div class="form-row">
+                <div class=" col-sm" style="grid-column-gap:50px">
+
+                    <h6 style=" color :gray; text-align:center; margin-right: 70px; margin-top: 20px"> @Html.ActionLink(" ¿Olvidó su contraseña? ", "../Registrado/RestaurarContraseña", "Registrado", new { style = "color:black" })</h6>
+                </div>
+                <div class=" col-sm" style="grid-column-gap:50px">
+                    <h6 style=" text-align:center; margin-left: 50px ; margin-top :5px; margin-right : 30px ">  @Html.ActionLink(" ¿No tiene una cuenta asociada? Regístrese", "../Registrado/Registro", "Registrado", new { style = "color:black" }) </h6>
+                </div>
+            </div>
+
+        </form>
+        
+    </div>
+
+    
+   
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Proyecto_Inge_Bases_Web.Models.Virtual>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<!--COMENTARIO-->
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDeArchivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DerechosDeProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fuentes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaExpiracion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoDeArchivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DerechosDeProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fuentes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaExpiracion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.VirtualID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VirtualID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VirtualID })
+        </td>
+    </tr>
+}
+
+</table>

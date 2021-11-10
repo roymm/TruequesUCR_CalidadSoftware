@@ -1,0 +1,8 @@
+﻿C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\ProjectInstaller.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\ProjectInstaller.Designer.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\Service1.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\Service1.Designer.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\Program.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\Properties\AssemblyInfo.cs
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\ProjectInstaller.resx
+C:\Users\royam\source\repos\roymm\Subastas\Proyecto_Inge_Bases_Web\ServicioWeb\App.config

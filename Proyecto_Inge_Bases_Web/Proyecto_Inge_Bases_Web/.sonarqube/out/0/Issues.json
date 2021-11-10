@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "3.6.0.0",
+        "fileVersion": "3.6.0-4.20269.4 (c94e3215)",
+        "semanticVersion": "3.6.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "CS0105",
+          "level": "warning",
+          "message": "The using directive for 'System.Collections.Generic' appeared previously in this namespace",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/Proyecto_Inge_Bases_Web/Models/Trueque.cs",
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 11,
+                  "endLine": 14,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "CS0168",
+          "level": "warning",
+          "message": "The variable 'e' is declared but never used",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/Proyecto_Inge_Bases_Web/Controllers/CategoriasController.cs",
+                "region": {
+                  "startLine": 87,
+                  "startColumn": 76,
+                  "endLine": 87,
+                  "endColumn": 77
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "The result of the expression is always 'false' since a value of type 'int' is never equal to 'null' of type 'int?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/Proyecto_Inge_Bases_Web/Controllers/NotificationsController.cs",
+                "region": {
+                  "startLine": 176,
+                  "startColumn": 17,
+                  "endLine": 176,
+                  "endColumn": 27
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0168",
+          "level": "warning",
+          "message": "The variable 'e' is declared but never used",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/Proyecto_Inge_Bases_Web/Controllers/ProductoController.cs",
+                "region": {
+                  "startLine": 444,
+                  "startColumn": 52,
+                  "endLine": 444,
+                  "endColumn": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        }
+      ],
+      "rules": {
+        "CS0105": {
+          "id": "CS0105",
+          "shortDescription": "Using directive appeared previously in this namespace",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS0168": {
+          "id": "CS0168",
+          "shortDescription": "Variable is declared but never used",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "CS0472": {
+          "id": "CS0472",
+          "shortDescription": "The result of the expression is always the same since a value of this type is never equal to 'null'",
+          "defaultLevel": "warning",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

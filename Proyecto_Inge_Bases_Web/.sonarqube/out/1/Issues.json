@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Microsoft (R) Visual C# Compiler",
+        "version": "3.11.0.0",
+        "fileVersion": "3.11.0-4.21403.6 (ae1fff34)",
+        "semanticVersion": "3.11.0",
+        "language": "en-US"
+      },
+      "results": [
+        {
+          "ruleId": "CS0105",
+          "level": "warning",
+          "message": "The using directive for 'System' appeared previously in this namespace",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Program.cs",
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 8,
+                  "endLine": 3,
+                  "endColumn": 14
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "CS0105",
+          "level": "warning",
+          "message": "The using directive for 'System.Collections.Generic' appeared previously in this namespace",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Program.cs",
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 7,
+                  "endLine": 4,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 3
+          }
+        },
+        {
+          "ruleId": "S1186",
+          "level": "warning",
+          "message": "Add a nested comment explaining why this method is empty, throw a 'NotSupportedException' or complete the implementation.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Service1.cs",
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 33,
+                  "endLine": 51,
+                  "endColumn": 39
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "\"password\" detected here, make sure this is not a hard-coded credential.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Service1.cs",
+                "region": {
+                  "startLine": 93,
+                  "startColumn": 24,
+                  "endLine": 93,
+                  "endColumn": 53
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S2068",
+          "level": "warning",
+          "message": "Please review this hard-coded password.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Service1.cs",
+                "region": {
+                  "startLine": 109,
+                  "startColumn": 42,
+                  "endLine": 109,
+                  "endColumn": 100
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S1481",
+          "level": "warning",
+          "message": "Remove the unused local variable 'userState'.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/royam/source/repos/roymm/Subastas/Proyecto_Inge_Bases_Web/ServicioWeb/Service1.cs",
+                "region": {
+                  "startLine": 114,
+                  "startColumn": 24,
+                  "endLine": 114,
+                  "endColumn": 33
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        }
+      ],
+      "rules": {
+        "CS0105": {
+          "id": "CS0105",
+          "shortDescription": "Using directive appeared previously in this namespace",
+          "defaultLevel": "warning",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS0105)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry"
+            ]
+          }
+        },
+        "S1186": {
+          "id": "S1186",
+          "shortDescription": "Methods should not be empty",
+          "fullDescription": "There are several reasons for a method not to have a method body:",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1186",
+          "properties": {
+            "category": "Critical Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S1481": {
+          "id": "S1481",
+          "shortDescription": "Unused local variables should be removed",
+          "fullDescription": "If a local variable is declared but not used, it is dead code and should be removed. Doing so will improve maintainability because developers will not wonder what the variable is used for.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-1481",
+          "properties": {
+            "category": "Minor Code Smell",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "TestSourceScope"
+            ]
+          }
+        },
+        "S2068": {
+          "id": "S2068",
+          "shortDescription": "Hard-coded credentials are security-sensitive",
+          "fullDescription": "Because it is easy to extract strings from an application source code or binary, credentials should not be hard-coded. This is particularly true for applications that are distributed or that are open-source.",
+          "defaultLevel": "warning",
+          "helpUri": "https://rules.sonarsource.com/csharp/RSPEC-2068",
+          "properties": {
+            "category": "Blocker Security Hotspot",
+            "isEnabledByDefault": true,
+            "tags": [
+              "C#",
+              "SonarWay",
+              "MainSourceScope",
+              "NotConfigurable"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
